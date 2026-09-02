@@ -564,12 +564,169 @@ def crear_equipos_disciplina(disciplina):
             ("Real Bañil", "Holando"),
         ]
 
+        jugadores_futbol_masculino = {
+            "La Vino": [
+                "Elvio Trossero",
+                "Matías Becker",
+                "Emiliano Schroder",
+                "Rodrigo Ramallo",
+                "Fabián Chaparro",
+                "Enzo Olivari",
+                "Brian Balbuena",
+                "Juan Acevedo",
+                "Ricardo Sanabria",
+                "Lisandro Romero",
+            ],
+        
+            "La Choloneta": [
+                "Lucas Picculo",
+                "Lucas Lell",
+                "Ezequiel Bianchini",
+                "Juan Martín Zaragoza",
+                "Thomas Garcilazo",
+                "Baltazar Michell",
+                "Stefano Saavedra",
+                "Julián Huck",
+                "Joaquín Palacios",
+                "Valentín Ojeda",
+            ],
+        
+            "Yo Te Vi": [
+                "Osiris Gonzales",
+                "Nahuel Galian",
+                "Alan Salas",
+                "Martín Sarasola",
+                "Alexis Regales",
+                "Jeremías Barzola",
+                "Enzo Lencina",
+                "Ramiro Reyes",
+                "Thiago Garay",
+                "Santi Garay",
+                "Mario Bracamonte",
+            ],
+        
+            "El Rancho FC": [
+                "Agustín Benítez",
+                "Santino Stamatti",
+                "Jerónimo Sivilla",
+                "Joaquín Garay",
+                "Jerónimo Rochi",
+                "Ricardo Trossero",
+                "Santiago Márquez",
+                "Agustín Roubineau",
+                "Nicolás Sirtori",
+                "Renato Armocida",
+            ],
+        
+            "Cantora de Basto": [
+                "Lautaro Alvarez",
+                "Alex Kispen",
+                "Joaquín Sancio",
+                "Iván Palavecino",
+                "Tomás Cuevas",
+                "Atilio Denardi",
+                "Mauro Passadore",
+                "Mateo Leiss",
+                "Ignacio Iribarren",
+                "Máximo Rojas",
+            ],
+        
+            "Luchoneta": [
+                "Nicolás Domínguez",
+                "Bautista Cáceres Taffarel",
+                "Joaquín Rodríguez",
+                "Juan Emilio Weber Mutti",
+                "Juan Ignacio De Bravandere",
+                "Enedin Matías Echaniz",
+                "Tobías Fabri",
+                "Hahn Julián Mazzeto",
+                "Juan Schwartz",
+            ],
+        
+            "Los Fabianes": [
+                "Duilio De Luca",
+                "Franco Romani",
+                "Salustiano Burruchaga",
+                "Augusto Grane",
+                "Simón Bollo",
+                "Mauro Arlettaz",
+                "Damián Domingorena",
+                "Lautaro Silva",
+                "Agustín Navarret",
+                "Flavio Busco",
+            ],
+        
+            "Real Ganadero": [
+                "Agustín Alva",
+                "Juan Ignacio Meroi",
+                "Mateo Mendoza",
+                "Juan Cruz Lozze",
+                "Mateo Franco",
+                "Franco Voucher",
+                "Mauro Sandrigo",
+                "Francisco Parisi",
+                "Martín Bustos",
+                "Francisco Roskopf",
+            ],
+        
+            "Deportivo Litoral": [
+                "Germán Wiesner",
+                "Franco Choves",
+                "Alexis Rodrigo Liturbe",
+                "Máximo Liturbe",
+                "Alejo Bermudes",
+                "Pross",
+                "Iván Peña",
+                "Jere Varisco",
+                "Namir Pavé",
+                "Agustín Holzman",
+            ],
+        
+            "Atlético Barbecho": [
+                "Martín Gaona",
+                "Nahuel Müller",
+                "Sabá Flores",
+                "Enzo Gigena",
+                "Benicio Fontana",
+                "Deian Landra",
+                "Francisco Humaran",
+                "Lisandro Pagnone",
+                "Pedro Pérez",
+                "Lisandro Silvestre",
+            ],
+        
+            "La Chancha Wacha": [
+                "Martín Gaona",
+                "Nahuel Müller",
+                "Sabá Flores",
+                "Enzo Gigena",
+                "Benicio Fontana",
+                "Deian Landra",
+                "Francisco Humaran",
+                "Lisandro Pagnone",
+                "Pedro Pérez",
+                "Lisandro Silvestre",
+            ],
+        
+            "Real Bañil": [
+                "José Cisterna",
+                "Max Ortega",
+                "Tomás Roth",
+                "Ariel Riffel",
+                "Carlos Alvarez",
+                "Víctor Chaliol",
+                "Lautaro Rodríguez",
+                "Nicolás Vallejos",
+                "Esteban Ávila",
+            ],
+        }
+
         for nombre, tribu in equipos_reales_futbol_masculino:
             equipos.append(
                 {
                     "nombre": nombre,
                     "tribu": tribu,
-                    "participantes": [f"Jugador/a {p + 1}" for p in range(8)],
+                    "participantes": jugadores_futbol_masculino.get(nombre, []),
                 }
             )
 
