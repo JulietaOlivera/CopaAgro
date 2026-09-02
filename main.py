@@ -22,13 +22,13 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
-# Inyección de CSS para tipografía moderna y limpia
+# Inyección de CSS para forzar la tipografía moderna
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         
-        html, body, [class*="css"] {
-            font-family: 'Inter', sans-serif;
+        * {
+            font-family: 'Inter', sans-serif !important;
         }
     </style>
 """, unsafe_allow_html=True)
