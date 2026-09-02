@@ -19,11 +19,19 @@ from datetime import datetime
 # ------------------------------------------------------------------------------
 st.set_page_config(
     page_title="La Copa Agro",
-    page_icon="🏆",
     layout="wide",
     initial_sidebar_state="expanded",
 )
-
+# Inyección de CSS para tipografía moderna y limpia
+st.markdown("""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        html, body, [class*="css"] {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+""", unsafe_allow_html=True)
 PIN_ADMIN = "JBJ2026"
 
 # Colores representativos de cada tribu (interfaz)
