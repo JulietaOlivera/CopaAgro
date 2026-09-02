@@ -419,12 +419,12 @@ def vista_inicio():
 
     col1, col2 = st.columns(2)
     with col1:
-        st.subheader("Kuani")
+        st.subheader("Fotos pendientes")
         # ### INSERTAR LINK DE IMAGEN ACÁ ###
         st.image("https://via.placeholder.com/400x300.png?text=Foto+de+Kuani",
                   use_container_width=True)
     with col2:
-        st.subheader("Walterms")
+        st.subheader("Fotos pendientes")
         # ### INSERTAR LINK DE IMAGEN ACÁ ###
         st.image("https://via.placeholder.com/400x300.png?text=Foto+de+Walterms",
                   use_container_width=True)
