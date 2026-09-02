@@ -509,8 +509,9 @@ st.markdown(
 # DATOS
 # ==============================================================================
 
-def generar_partidos_round_robin(equipos_nombres, grupo_label):
+def generar_partidos_round_robin(equipos_nombres, grupo_label, horarios=None):
     partidos = []
+
     for i in range(len(equipos_nombres)):
         for j in range(i + 1, len(equipos_nombres)):
             partidos.append(
@@ -520,11 +521,15 @@ def generar_partidos_round_robin(equipos_nombres, grupo_label):
                     "visitante": equipos_nombres[j],
                     "marcador_local": None,
                     "marcador_visitante": None,
-                    # REEMPLAZAR CON HORARIOS REALES
                     "horario": "10:00",
                     "jugado": False,
                 }
             )
+
+    if horarios:
+        for partido, horario in zip(partidos, horarios):
+            partido["horario"] = horario
+
     return partidos
 
 
@@ -576,8 +581,176 @@ def inicializar_disciplina(disciplina):
     grupos = armar_grupos(equipos, disciplina)
 
     partidos = []
-    for grupo_label, equipos_grupo in grupos.items():
-        partidos.extend(generar_partidos_round_robin(equipos_grupo, grupo_label))
+
+    # ==============================================================
+    # FÚTBOL MASCULINO
+    # ==============================================================
+    if disciplina == "Fútbol Masculino":
+
+        fixture = {
+            "A": [
+                (0, 1, "09:30"),
+                (1, 2, "10:30"),
+                (2, 0, "11:30"),
+            ],
+            "B": [
+                (0, 1, "09:30"),
+                (1, 2, "10:30"),
+                (2, 0, "11:30"),
+            ],
+            "C": [
+                (0, 1, "10:00"),
+                (1, 2, "11:00"),
+                (2, 0, "12:00"),
+            ],
+            "D": [
+                (0, 1, "10:00"),
+                (1, 2, "11:00"),
+                (2, 0, "12:00"),
+            ],
+        }
+
+        for grupo_label, equipos_grupo in grupos.items():
+            for local_idx, visitante_idx, horario in fixture[grupo_label]:
+                partidos.append(
+                    {
+                        "grupo": grupo_label,
+                        "local": equipos_grupo[local_idx],
+                        "visitante": equipos_grupo[visitante_idx],
+                        "marcador_local": None,
+                        "marcador_visitante": None,
+                        "horario": horario,
+                        "jugado": False,
+                    }
+                )
+
+        # Reordenamos para mostrar el fixture exactamente
+        # como fue establecido oficialmente.
+        orden_oficial = [
+            ("A", "09:30"),
+            ("B", "09:30"),
+            ("C", "10:00"),
+            ("D", "10:00"),
+            ("A", "10:30"),
+            ("B", "10:30"),
+            ("C", "11:00"),
+            ("D", "11:00"),
+            ("A", "11:30"),
+            ("B", "11:30"),
+            ("C", "12:00"),
+            ("D", "12:00"),
+        ]
+
+        partidos_ordenados = []
+
+        for grupo, horario in orden_oficial:
+            for partido in partidos:
+                if (
+                    partido["grupo"] == grupo
+                    and partido["horario"] == horario
+                    and partido not in partidos_ordenados
+                ):
+                    partidos_ordenados.append(partido)
+                    break
+
+        partidos = partidos_ordenados
+
+    # ==============================================================
+    # FÚTBOL FEMENINO
+    # ==============================================================
+    elif disciplina == "Fútbol Femenino":
+
+        fixture = {
+            "A": [
+                (0, 1, "12:50"),
+                (1, 2, "13:40"),
+                (2, 0, "14:30"),
+            ],
+            "B": [
+                (0, 1, "12:50"),
+                (1, 2, "13:40"),
+                (2, 0, "14:30"),
+            ],
+            "C": [
+                (0, 1, "12:50"),
+                (1, 2, "13:40"),
+                (2, 0, "14:30"),
+            ],
+        }
+
+        # La disciplina femenina tiene 8 equipos.
+        # Se distribuyen en dos grupos de 4.
+        # Por eso usamos A y B.
+        fixture = {
+            "A": [
+                (0, 1, "12:50"),
+                (2, 3, "12:50"),
+                (2, 0, "13:40"),
+                (3, 1, "13:40"),
+                (3, 0, "14:30"),
+                (1, 2, "14:30"),
+            ],
+            "B": [
+                (0, 1, "13:15"),
+                (2, 3, "13:15"),
+                (2, 0, "14:05"),
+                (3, 1, "14:05"),
+                (1, 2, "14:55"),
+                (3, 0, "14:55"),
+            ],
+        }
+
+        for grupo_label, equipos_grupo in grupos.items():
+            if grupo_label not in fixture:
+                continue
+
+            for local_idx, visitante_idx, horario in fixture[grupo_label]:
+                partidos.append(
+                    {
+                        "grupo": grupo_label,
+                        "local": equipos_grupo[local_idx],
+                        "visitante": equipos_grupo[visitante_idx],
+                        "marcador_local": None,
+                        "marcador_visitante": None,
+                        "horario": horario,
+                        "jugado": False,
+                    }
+                )
+
+        # Orden oficial de todos los partidos femeninos
+        orden_oficial = [
+            ("A", "12:50"),
+            ("B", "13:15"),
+            ("A", "13:40"),
+            ("B", "14:05"),
+            ("A", "14:30"),
+            ("B", "14:55"),
+        ]
+
+        partidos_ordenados = []
+
+        for grupo, horario in orden_oficial:
+            for partido in partidos:
+                if (
+                    partido["grupo"] == grupo
+                    and partido["horario"] == horario
+                    and partido not in partidos_ordenados
+                ):
+                    partidos_ordenados.append(partido)
+
+        partidos = partidos_ordenados
+
+    # ==============================================================
+    # RESTO DE DISCIPLINAS
+    # ==============================================================
+    else:
+        for grupo_label, equipos_grupo in grupos.items():
+            partidos.extend(
+                generar_partidos_round_robin(
+                    equipos_grupo,
+                    grupo_label,
+                )
+            )
 
     return {
         "equipos": equipos,
@@ -772,92 +945,136 @@ def armar_llave_eliminatoria(disciplina):
         }
 
     elif len(letras) == 2:
-        datos["eliminatorias"] = {
-            "Semifinales": [
-                {
-                    "local": primeros[letras[0]],
-                    "visitante": segundos[letras[1]],
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "jugado": False,
-                },
-                {
-                    "local": primeros[letras[1]],
-                    "visitante": segundos[letras[0]],
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "jugado": False,
-                },
-            ],
-            "Final": [
-                {
-                    "local": None,
-                    "visitante": None,
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "jugado": False,
-                }
-            ],
-        }
+
+    if disciplina == "Fútbol Femenino":
+        horario_semifinal_1 = "15:40"
+        horario_semifinal_2 = "15:40"
+        horario_final = "16:30"
+    else:
+        horario_semifinal_1 = "10:00"
+        horario_semifinal_2 = "10:00"
+        horario_final = "10:00"
+
+    datos["eliminatorias"] = {
+        "Semifinales": [
+            {
+                "local": primeros[letras[0]],
+                "visitante": segundos[letras[1]],
+                "marcador_local": None,
+                "marcador_visitante": None,
+                "horario": horario_semifinal_1,
+                "jugado": False,
+            },
+            {
+                "local": primeros[letras[1]],
+                "visitante": segundos[letras[0]],
+                "marcador_local": None,
+                "marcador_visitante": None,
+                "horario": horario_semifinal_2,
+                "jugado": False,
+            },
+        ],
+
+        "Final": [
+            {
+                "local": None,
+                "visitante": None,
+                "marcador_local": None,
+                "marcador_visitante": None,
+                "horario": horario_final,
+                "jugado": False,
+            }
+        ],
+    }
 
     elif len(letras) == 4:
-        datos["eliminatorias"] = {
-            "Cuartos de Final": [
-                {
-                    "local": primeros[letras[0]],
-                    "visitante": segundos[letras[1]],
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "jugado": False,
-                },
-                {
-                    "local": primeros[letras[1]],
-                    "visitante": segundos[letras[0]],
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "jugado": False,
-                },
-                {
-                    "local": primeros[letras[2]],
-                    "visitante": segundos[letras[3]],
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "jugado": False,
-                },
-                {
-                    "local": primeros[letras[3]],
-                    "visitante": segundos[letras[2]],
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "jugado": False,
-                },
-            ],
-            "Semifinales": [
-                {
-                    "local": None,
-                    "visitante": None,
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "jugado": False,
-                },
-                {
-                    "local": None,
-                    "visitante": None,
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "jugado": False,
-                },
-            ],
-            "Final": [
-                {
-                    "local": None,
-                    "visitante": None,
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "jugado": False,
-                }
-            ],
-        }
+
+    if disciplina == "Fútbol Masculino":
+        horarios_cuartos = [
+            "12:30",
+            "13:00",
+            "13:30",
+            "14:00",
+        ]
+
+        horarios_semifinales = [
+            "14:30",
+            "15:00",
+        ]
+
+        horario_final = "16:00"
+
+    else:
+        horarios_cuartos = ["10:00"] * 4
+        horarios_semifinales = ["10:00", "10:00"]
+        horario_final = "10:00"
+
+    datos["eliminatorias"] = {
+        "Cuartos de Final": [
+            {
+                "local": primeros[letras[0]],
+                "visitante": segundos[letras[2]],
+                "marcador_local": None,
+                "marcador_visitante": None,
+                "horario": horarios_cuartos[0],
+                "jugado": False,
+            },
+            {
+                "local": primeros[letras[1]],
+                "visitante": segundos[letras[3]],
+                "marcador_local": None,
+                "marcador_visitante": None,
+                "horario": horarios_cuartos[1],
+                "jugado": False,
+            },
+            {
+                "local": primeros[letras[2]],
+                "visitante": segundos[letras[0]],
+                "marcador_local": None,
+                "marcador_visitante": None,
+                "horario": horarios_cuartos[2],
+                "jugado": False,
+            },
+            {
+                "local": primeros[letras[3]],
+                "visitante": segundos[letras[1]],
+                "marcador_local": None,
+                "marcador_visitante": None,
+                "horario": horarios_cuartos[3],
+                "jugado": False,
+            },
+        ],
+
+        "Semifinales": [
+            {
+                "local": None,
+                "visitante": None,
+                "marcador_local": None,
+                "marcador_visitante": None,
+                "horario": horarios_semifinales[0],
+                "jugado": False,
+            },
+            {
+                "local": None,
+                "visitante": None,
+                "marcador_local": None,
+                "marcador_visitante": None,
+                "horario": horarios_semifinales[1],
+                "jugado": False,
+            },
+        ],
+
+        "Final": [
+            {
+                "local": None,
+                "visitante": None,
+                "marcador_local": None,
+                "marcador_visitante": None,
+                "horario": horario_final,
+                "jugado": False,
+            }
+        ],
+    }
 
     datos["fase_grupos_cerrada"] = True
 
