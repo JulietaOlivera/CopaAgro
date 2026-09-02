@@ -989,92 +989,92 @@ def armar_llave_eliminatoria(disciplina):
 
     elif len(letras) == 4:
 
-    if disciplina == "Fútbol Masculino":
-        horarios_cuartos = [
-            "12:30",
-            "13:00",
-            "13:30",
-            "14:00",
-        ]
-
-        horarios_semifinales = [
-            "14:30",
-            "15:00",
-        ]
-
-        horario_final = "16:00"
-
-    else:
-        horarios_cuartos = ["10:00"] * 4
-        horarios_semifinales = ["10:00", "10:00"]
-        horario_final = "10:00"
-
-    datos["eliminatorias"] = {
-        "Cuartos de Final": [
-            {
-                "local": primeros[letras[0]],
-                "visitante": segundos[letras[2]],
-                "marcador_local": None,
-                "marcador_visitante": None,
-                "horario": horarios_cuartos[0],
-                "jugado": False,
-            },
-            {
-                "local": primeros[letras[1]],
-                "visitante": segundos[letras[3]],
-                "marcador_local": None,
-                "marcador_visitante": None,
-                "horario": horarios_cuartos[1],
-                "jugado": False,
-            },
-            {
-                "local": primeros[letras[2]],
-                "visitante": segundos[letras[0]],
-                "marcador_local": None,
-                "marcador_visitante": None,
-                "horario": horarios_cuartos[2],
-                "jugado": False,
-            },
-            {
-                "local": primeros[letras[3]],
-                "visitante": segundos[letras[1]],
-                "marcador_local": None,
-                "marcador_visitante": None,
-                "horario": horarios_cuartos[3],
-                "jugado": False,
-            },
-        ],
-
-        "Semifinales": [
-            {
-                "local": None,
-                "visitante": None,
-                "marcador_local": None,
-                "marcador_visitante": None,
-                "horario": horarios_semifinales[0],
-                "jugado": False,
-            },
-            {
-                "local": None,
-                "visitante": None,
-                "marcador_local": None,
-                "marcador_visitante": None,
-                "horario": horarios_semifinales[1],
-                "jugado": False,
-            },
-        ],
-
-        "Final": [
-            {
-                "local": None,
-                "visitante": None,
-                "marcador_local": None,
-                "marcador_visitante": None,
-                "horario": horario_final,
-                "jugado": False,
-            }
-        ],
-    }
+        if disciplina == "Fútbol Masculino":
+            horarios_cuartos = [
+                "12:30",
+                "13:00",
+                "13:30",
+                "14:00",
+            ]
+    
+            horarios_semifinales = [
+                "14:30",
+                "15:00",
+            ]
+    
+            horario_final = "16:00"
+    
+        else:
+            horarios_cuartos = ["10:00"] * 4
+            horarios_semifinales = ["10:00", "10:00"]
+            horario_final = "10:00"
+    
+        datos["eliminatorias"] = {
+            "Cuartos de Final": [
+                {
+                    "local": primeros[letras[0]],
+                    "visitante": segundos[letras[2]],
+                    "marcador_local": None,
+                    "marcador_visitante": None,
+                    "horario": horarios_cuartos[0],
+                    "jugado": False,
+                },
+                {
+                    "local": primeros[letras[1]],
+                    "visitante": segundos[letras[3]],
+                    "marcador_local": None,
+                    "marcador_visitante": None,
+                    "horario": horarios_cuartos[1],
+                    "jugado": False,
+                },
+                {
+                    "local": primeros[letras[2]],
+                    "visitante": segundos[letras[0]],
+                    "marcador_local": None,
+                    "marcador_visitante": None,
+                    "horario": horarios_cuartos[2],
+                    "jugado": False,
+                },
+                {
+                    "local": primeros[letras[3]],
+                    "visitante": segundos[letras[1]],
+                    "marcador_local": None,
+                    "marcador_visitante": None,
+                    "horario": horarios_cuartos[3],
+                    "jugado": False,
+                },
+            ],
+    
+            "Semifinales": [
+                {
+                    "local": None,
+                    "visitante": None,
+                    "marcador_local": None,
+                    "marcador_visitante": None,
+                    "horario": horarios_semifinales[0],
+                    "jugado": False,
+                },
+                {
+                    "local": None,
+                    "visitante": None,
+                    "marcador_local": None,
+                    "marcador_visitante": None,
+                    "horario": horarios_semifinales[1],
+                    "jugado": False,
+                },
+            ],
+    
+            "Final": [
+                {
+                    "local": None,
+                    "visitante": None,
+                    "marcador_local": None,
+                    "marcador_visitante": None,
+                    "horario": horario_final,
+                    "jugado": False,
+                }
+            ],
+        }
 
     datos["fase_grupos_cerrada"] = True
 
