@@ -1211,11 +1211,7 @@ def render_match_card(disciplina, grupo, partido):
         <div class="match-card">
             <div class="match-top">
                 <span>{escape(disciplina)}</span>
-                <span>
-                    Grupo {escape(str(grupo))} |
-                    {escape(str(partido['horario']))} |
-                    {escape(str(partido.get('cancha', '')))}
-                </span>
+                <span>Grupo {escape(str(grupo))} | {escape(str(partido['horario']))} | {escape(str(partido.get('cancha', '')))}</span>
             </div>
             <div class="match-teams">
                 <div class="team">{escape(partido['local'])}</div>
