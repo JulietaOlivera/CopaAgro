@@ -946,46 +946,46 @@ def armar_llave_eliminatoria(disciplina):
 
     elif len(letras) == 2:
 
-    if disciplina == "Fútbol Femenino":
-        horario_semifinal_1 = "15:40"
-        horario_semifinal_2 = "15:40"
-        horario_final = "16:30"
-    else:
-        horario_semifinal_1 = "10:00"
-        horario_semifinal_2 = "10:00"
-        horario_final = "10:00"
-
-    datos["eliminatorias"] = {
-        "Semifinales": [
-            {
-                "local": primeros[letras[0]],
-                "visitante": segundos[letras[1]],
-                "marcador_local": None,
-                "marcador_visitante": None,
-                "horario": horario_semifinal_1,
-                "jugado": False,
-            },
-            {
-                "local": primeros[letras[1]],
-                "visitante": segundos[letras[0]],
-                "marcador_local": None,
-                "marcador_visitante": None,
-                "horario": horario_semifinal_2,
-                "jugado": False,
-            },
-        ],
-
-        "Final": [
-            {
-                "local": None,
-                "visitante": None,
-                "marcador_local": None,
-                "marcador_visitante": None,
-                "horario": horario_final,
-                "jugado": False,
-            }
-        ],
-    }
+        if disciplina == "Fútbol Femenino":
+            horario_semifinal_1 = "15:40"
+            horario_semifinal_2 = "15:40"
+            horario_final = "16:30"
+        else:
+            horario_semifinal_1 = "10:00"
+            horario_semifinal_2 = "10:00"
+            horario_final = "10:00"
+    
+        datos["eliminatorias"] = {
+            "Semifinales": [
+                {
+                    "local": primeros[letras[0]],
+                    "visitante": segundos[letras[1]],
+                    "marcador_local": None,
+                    "marcador_visitante": None,
+                    "horario": horario_semifinal_1,
+                    "jugado": False,
+                },
+                {
+                    "local": primeros[letras[1]],
+                    "visitante": segundos[letras[0]],
+                    "marcador_local": None,
+                    "marcador_visitante": None,
+                    "horario": horario_semifinal_2,
+                    "jugado": False,
+                },
+            ],
+    
+            "Final": [
+                {
+                    "local": None,
+                    "visitante": None,
+                    "marcador_local": None,
+                    "marcador_visitante": None,
+                    "horario": horario_final,
+                    "jugado": False,
+                }
+            ],
+        }
 
     elif len(letras) == 4:
 
