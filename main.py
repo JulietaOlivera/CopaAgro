@@ -610,7 +610,6 @@ def inicializar_estado():
 
     # REEMPLAZAR CON TORNEOS EXPRESS REALES
     st.session_state.torneos_express = [
-        {"tribu": "Trigo", "concepto": "Torneo de Truco", "puntos": 1},
     ]
 
     # REEMPLAZAR CON CRONOGRAMA REAL
