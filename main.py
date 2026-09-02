@@ -569,14 +569,14 @@ def crear_equipos_disciplina(disciplina):
         nombre = f"Equipo {contador_tribu[tribu]} {disciplina} ({tribu})"
 
         if disciplina == "Fútbol Masculino":
-        for nombre, tribu in equipos_reales_futbol_masculino:
-            equipos.append(
-                {
-                    "nombre": nombre,
-                    "tribu": tribu,
-                    "participantes": [f"Jugador/a {p + 1}" for p in range(8)],
-                }
-            )
+            for nombre, tribu in equipos_reales_futbol_masculino:
+                equipos.append(
+                    {
+                        "nombre": nombre,
+                        "tribu": tribu,
+                        "participantes": [f"Jugador/a {p + 1}" for p in range(8)],
+                    }
+                )
         return equipos
 
     
