@@ -541,6 +541,24 @@ def crear_equipos_disciplina(disciplina):
 
     total_equipos = cantidad_por_tribu * len(orden_tribus)
 
+    equipos_reales_futbol_masc = [
+        ("La Vino", "Maíz"),
+        ("La Choloneta", "Trigo"),
+        ("Yo Te Vi", "Angus"),
+
+        ("El Rancho FC", "Maíz"),
+        ("Cantora de Basto", "Trigo"),
+        ("Luchoneta", "Holando"),
+
+        ("Los Fabianes", "Maíz"),
+        ("Real Ganadero", "Angus"),
+        ("Deportivo Litoral", "Holando"),
+
+        ("Atlético Barbecho", "Trigo"),
+        ("La Chancha Wacha", "Angus"),
+        ("Real Bañil", "Holando"),
+    ]
+    
     for n in range(total_equipos):
         tribu = orden_tribus[n % len(orden_tribus)]
         contador_tribu[tribu] += 1
@@ -550,16 +568,18 @@ def crear_equipos_disciplina(disciplina):
         # ==============================================================
         nombre = f"Equipo {contador_tribu[tribu]} {disciplina} ({tribu})"
 
-        equipos.append(
-            {
-                "nombre": nombre,
-                "tribu": tribu,
-                # REEMPLAZAR CON PARTICIPANTES REALES
-                "participantes": [f"Jugador/a {p + 1}" for p in range(8)],
-            }
-        )
+        if disciplina == "Fútbol Masculino":
+        for nombre, tribu in equipos_reales_futbol_masculino:
+            equipos.append(
+                {
+                    "nombre": nombre,
+                    "tribu": tribu,
+                    "participantes": [f"Jugador/a {p + 1}" for p in range(8)],
+                }
+            )
+        return equipos
 
-    return equipos
+    
 
 
 def armar_grupos(equipos, disciplina):
@@ -589,29 +609,29 @@ def inicializar_disciplina(disciplina):
 
         fixture = {
             "A": [
-                (0, 1, "09:30"),
-                (1, 2, "10:30"),
-                (2, 0, "11:30"),
+                (0, 1, "09:30", "Cancha A"),
+                (1, 2, "10:30", "Cancha A"),
+                (2, 0, "11:30", "Cancha A"),
             ],
             "B": [
-                (0, 1, "09:30"),
-                (1, 2, "10:30"),
-                (2, 0, "11:30"),
+                (0, 1, "09:30", "Cancha D"),
+                (1, 2, "10:30", "Cancha D"),
+                (2, 0, "11:30", "Cancha D"),
             ],
             "C": [
-                (0, 1, "10:00"),
-                (1, 2, "11:00"),
-                (2, 0, "12:00"),
+                (0, 1, "10:00", "Cancha A"),
+                (1, 2, "11:00", "Cancha A"),
+                (2, 0, "12:00", "Cancha A"),
             ],
             "D": [
-                (0, 1, "10:00"),
-                (1, 2, "11:00"),
-                (2, 0, "12:00"),
+                (0, 1, "10:00", "Cancha D"),
+                (1, 2, "11:00", "Cancha D"),
+                (2, 0, "12:00", "Cancha D"),
             ],
         }
 
         for grupo_label, equipos_grupo in grupos.items():
-            for local_idx, visitante_idx, horario in fixture[grupo_label]:
+            for local_idx, visitante_idx, horario, cancha in fixture[grupo_label]:
                 partidos.append(
                     {
                         "grupo": grupo_label,
@@ -621,6 +641,7 @@ def inicializar_disciplina(disciplina):
                         "marcador_visitante": None,
                         "horario": horario,
                         "jugado": False,
+                        "cancha":cancha,
                     }
                 )
 
@@ -1174,7 +1195,11 @@ def render_match_card(disciplina, grupo, partido):
         <div class="match-card">
             <div class="match-top">
                 <span>{escape(disciplina)}</span>
-                <span>Grupo {escape(str(grupo))} | {escape(str(partido['horario']))}</span>
+                <span>
+                    Grupo {escape(str(grupo))} |
+                    {escape(str(partido['horario']))} |
+                    {escape(str(partido.get('cancha', '')))}
+                </span>
             </div>
             <div class="match-teams">
                 <div class="team">{escape(partido['local'])}</div>
@@ -1441,7 +1466,7 @@ def vista_disciplinas():
                 if st.session_state.admin_logueado:
                     render_match_card(disciplina, grupo_label, p)
 
-                    cols = st.columns([2.3, 1, 1, 1])
+                    cols = st.columns([1.8, 1.2, 1, 1, 1])
 
                     nuevo_horario = cols[0].text_input(
                         "Horario",
@@ -1449,7 +1474,13 @@ def vista_disciplinas():
                         key=f"horario_{disciplina}_{grupo_label}_{idx}",
                     )
 
-                    gl = cols[1].number_input(
+                    cancha = cols[1].text_input(
+                        "Cancha",
+                        value=p.get("cancha", ""),
+                        key=f"cancha_{disciplina}_{grupo_label}_{idx}",
+                    )
+
+                    gl = cols[2].number_input(
                         "Local",
                         min_value=0,
                         max_value=limite,
@@ -1457,7 +1488,7 @@ def vista_disciplinas():
                         key=f"gl_{disciplina}_{grupo_label}_{idx}",
                     )
 
-                    gv = cols[2].number_input(
+                    gv = cols[3].number_input(
                         "Visitante",
                         min_value=0,
                         max_value=limite,
@@ -1465,11 +1496,12 @@ def vista_disciplinas():
                         key=f"gv_{disciplina}_{grupo_label}_{idx}",
                     )
 
-                    if cols[3].button(
+                    if cols[4].button(
                         "Guardar",
                         key=f"guardar_{disciplina}_{grupo_label}_{idx}",
                     ):
                         p["horario"] = nuevo_horario
+                        p["cancha"] = cancha
                         p["marcador_local"] = int(gl)
                         p["marcador_visitante"] = int(gv)
                         p["jugado"] = True
