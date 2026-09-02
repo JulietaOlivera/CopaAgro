@@ -541,43 +541,59 @@ def crear_equipos_disciplina(disciplina):
 
     total_equipos = cantidad_por_tribu * len(orden_tribus)
 
-    equipos_reales_futbol_masc = [
-        ("La Vino", "Maíz"),
-        ("La Choloneta", "Trigo"),
-        ("Yo Te Vi", "Angus"),
+    # ==============================================================
+    # FÚTBOL MASCULINO - EQUIPOS REALES
+    # ==============================================================
 
-        ("El Rancho FC", "Maíz"),
-        ("Cantora de Basto", "Trigo"),
-        ("Luchoneta", "Holando"),
+    if disciplina == "Fútbol Masculino":
+        equipos_reales_futbol_masculino = [
+            ("La Vino", "Maíz"),
+            ("La Choloneta", "Trigo"),
+            ("Yo Te Vi", "Angus"),
 
-        ("Los Fabianes", "Maíz"),
-        ("Real Ganadero", "Angus"),
-        ("Deportivo Litoral", "Holando"),
+            ("El Rancho FC", "Maíz"),
+            ("Cantora de Basto", "Trigo"),
+            ("Luchoneta", "Holando"),
 
-        ("Atlético Barbecho", "Trigo"),
-        ("La Chancha Wacha", "Angus"),
-        ("Real Bañil", "Holando"),
-    ]
-    
+            ("Los Fabianes", "Maíz"),
+            ("Real Ganadero", "Angus"),
+            ("Deportivo Litoral", "Holando"),
+
+            ("Atlético Barbecho", "Trigo"),
+            ("La Chancha Wacha", "Angus"),
+            ("Real Bañil", "Holando"),
+        ]
+
+        for nombre, tribu in equipos_reales_futbol_masculino:
+            equipos.append(
+                {
+                    "nombre": nombre,
+                    "tribu": tribu,
+                    "participantes": [f"Jugador/a {p + 1}" for p in range(8)],
+                }
+            )
+
+        return equipos
+
+    # ==============================================================
+    # RESTO DE DISCIPLINAS
+    # ==============================================================
+
     for n in range(total_equipos):
         tribu = orden_tribus[n % len(orden_tribus)]
         contador_tribu[tribu] += 1
 
-        # ==============================================================
-        # REEMPLAZAR CON NOMBRES REALES DE EQUIPOS
-        # ==============================================================
         nombre = f"Equipo {contador_tribu[tribu]} {disciplina} ({tribu})"
 
-        if disciplina == "Fútbol Masculino":
-            for nombre, tribu in equipos_reales_futbol_masculino:
-                equipos.append(
-                    {
-                        "nombre": nombre,
-                        "tribu": tribu,
-                        "participantes": [f"Jugador/a {p + 1}" for p in range(8)],
-                    }
-                )
-        return equipos
+        equipos.append(
+            {
+                "nombre": nombre,
+                "tribu": tribu,
+                "participantes": [f"Jugador/a {p + 1}" for p in range(8)],
+            }
+        )
+
+    return equipos
 
     
 
