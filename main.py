@@ -2011,25 +2011,6 @@ def vista_premios():
             unsafe_allow_html=True,
         )
 
-    st.markdown(
-        '<div class="section-label">Topes de marcador</div>',
-        unsafe_allow_html=True,
-    )
-
-    cols = st.columns(4)
-
-    for col, disciplina in zip(cols, DISCIPLINAS):
-        with col:
-            st.markdown(
-                f"""
-                <div class="mini-stat">
-                    <div class="mini-stat-number">{LIMITES_MARCADOR[disciplina]}</div>
-                    <div class="mini-stat-label">{escape(disciplina)}</div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
 
 # ==============================================================================
 # LOGIN ADMIN
