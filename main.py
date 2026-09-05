@@ -2035,15 +2035,24 @@ def vista_login_admin():
             st.session_state.admin_logueado = False
             st.rerun()
 
+        # --->BOTÓN <---
         st.markdown("---")
         st.write("🛠️ **Herramientas de Desarrollo (Modo Prueba)**")
         if st.button("🚨 Resetear todos los resultados a 0"):
             try:
-                supabase.table("partidos").update({
+                # Conectamos a Supabase directamente acá para evitar el error
+                from supabase import create_client
+                url = st.secrets["SUPABASE_URL"]
+                key = st.secrets["SUPABASE_KEY"]
+                cliente_db = create_client(url, key)
+                
+                # Ejecutamos el reseteo
+                cliente_db.table("partidos").update({
                     "jugado": False,
                     "goles_1": 0,
                     "goles_2": 0
                 }).eq("jugado", True).execute()
+                
                 st.success("¡Resultados limpios! Recargá la página para ver todo en cero.")
             except Exception as e:
                 st.error(f"Error al resetear: {e}")
