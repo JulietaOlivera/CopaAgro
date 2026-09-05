@@ -2036,6 +2036,7 @@ def vista_login_admin():
             st.rerun()
 
         # --->BOTÓN <---
+        # ---> REEMPLAZÁ EL CÓDIGO DEL BOTÓN POR ESTE <---
         st.markdown("---")
         st.write("🛠️ **Herramientas de Desarrollo (Modo Prueba)**")
         if st.button("🚨 Resetear todos los resultados a 0"):
@@ -2045,17 +2046,16 @@ def vista_login_admin():
                 key = st.secrets["SUPABASE_KEY"]
                 cliente_db = create_client(url, key)
                 
-                # Usamos el nombre real de tu tabla: resultados_partidos
+                # Usamos los nombres exactos de tu tabla
                 cliente_db.table("resultados_partidos").update({
                     "jugado": False,
-                    "goles_1": 0,
-                    "goles_2": 0
+                    "marcador_local": 0,
+                    "marcador_visitante": 0
                 }).eq("jugado", True).execute()
                 
                 st.success("¡Resultados limpios! Recargá la página para ver todo en cero.")
             except Exception as e:
                 st.error(f"Error al resetear: {e}")
-
         return
 
     col1, col2, col3 = st.columns([1, 2, 1])
