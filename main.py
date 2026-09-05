@@ -12,6 +12,10 @@
 
 import streamlit as st
 from html import escape
+from datetime import datetime, timezone
+
+from supabase import create_client, Client
+from streamlit_autorefresh import st_autorefresh
 
 
 # ==============================================================================
@@ -769,205 +773,216 @@ def armar_grupos(equipos, disciplina):
     return grupos
 
 
-def inicializar_disciplina(disciplina):
-    equipos = crear_equipos_disciplina(disciplina)
-    grupos = armar_grupos(equipos, disciplina)
+# ==============================================================================
+# CONEXIÓN A LA BASE DE DATOS COMPARTIDA (Supabase / PostgreSQL)
+# ==============================================================================
+#
+# Estas credenciales se leen desde los "Secrets" de Streamlit Community
+# Cloud (Settings -> Secrets), por lo que nunca quedan expuestas al
+# navegador: todo este código corre en el servidor.
+#
+#   SUPABASE_URL = "https://XXXXXXXX.supabase.co"
+#   SUPABASE_KEY = "eyJhbGciOi....(Service Role Key)..."
+#
+# En Supabase solo se guardan los datos DINÁMICOS de cada partido
+# (marcador, horario, cancha, si se jugó) y si la fase de grupos de cada
+# disciplina ya fue cerrada. Todo lo demás (tribus, equipos,
+# participantes, grupos, fixture "de fábrica", reglas, límites) sigue
+# definido acá, en main.py, y es de SOLO LECTURA para el administrador.
+# ==============================================================================
 
-    partidos = []
+@st.cache_resource(show_spinner=False)
+def obtener_cliente_db() -> Client:
+    return create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
 
-    # ==============================================================
-    # FÚTBOL MASCULINO
-    # ==============================================================
+
+@st.cache_data(ttl=5, show_spinner=False)
+def leer_resultados_partidos():
+    """
+    Trae TODOS los resultados dinámicos guardados en Supabase en una sola
+    consulta y arma un diccionario indexado por
+    (disciplina, tipo, clave, slot) para cruzarlo con el fixture estático.
+
+    Está cacheada 5 segundos y ese caché es COMPARTIDO por todas las
+    sesiones de la app (no es "por usuario"): por eso alcanza con
+    limpiarlo una vez cuando el admin guarda un cambio para que se
+    propague a cualquiera que refresque después.
+    """
+    cliente = obtener_cliente_db()
+    respuesta = cliente.table("resultados_partidos").select("*").execute()
+
+    filas = {}
+    for fila in respuesta.data:
+        clave = (fila["disciplina"], fila["tipo"], fila["clave"], fila["slot"])
+        filas[clave] = fila
+    return filas
+
+
+@st.cache_data(ttl=5, show_spinner=False)
+def leer_estado_disciplinas():
+    """Trae, para cada disciplina, si la fase de grupos ya fue cerrada."""
+    cliente = obtener_cliente_db()
+    respuesta = cliente.table("estado_disciplinas").select("*").execute()
+    return {fila["disciplina"]: fila["fase_grupos_cerrada"] for fila in respuesta.data}
+
+
+def guardar_resultado_partido(
+    disciplina, tipo, clave, slot, *,
+    marcador_local=None, marcador_visitante=None,
+    horario=None, cancha=None, jugado=False, ganador_forzado=None,
+):
+    """
+    Guarda (inserta o actualiza) el resultado dinámico de UN partido.
+    "tipo" es 'grupo' o 'eliminatoria'; "clave" es la letra del grupo
+    (ej. 'A') o el nombre de la ronda eliminatoria (ej. 'Cuartos de
+    Final'); "slot" es la posición del partido dentro de ese grupo/ronda.
+    """
+    cliente = obtener_cliente_db()
+    cliente.table("resultados_partidos").upsert(
+        {
+            "disciplina": disciplina,
+            "tipo": tipo,
+            "clave": clave,
+            "slot": slot,
+            "marcador_local": marcador_local,
+            "marcador_visitante": marcador_visitante,
+            "horario": horario,
+            "cancha": cancha,
+            "jugado": jugado,
+            "ganador_forzado": ganador_forzado,
+            "actualizado_en": datetime.now(timezone.utc).isoformat(),
+        },
+        on_conflict="disciplina,tipo,clave,slot",
+    ).execute()
+
+    # Invalidamos el caché compartido: así el propio admin ve el cambio
+    # al instante, y cualquier otra sesión que refresque (por el
+    # auto-refresco o por su propia interacción) también lo verá.
+    leer_resultados_partidos.clear()
+
+
+def guardar_estado_fase(disciplina, cerrada):
+    """Guarda si la fase de grupos de una disciplina está cerrada o no."""
+    cliente = obtener_cliente_db()
+    cliente.table("estado_disciplinas").upsert(
+        {
+            "disciplina": disciplina,
+            "fase_grupos_cerrada": cerrada,
+            "actualizado_en": datetime.now(timezone.utc).isoformat(),
+        },
+        on_conflict="disciplina",
+    ).execute()
+    leer_estado_disciplinas.clear()
+
+
+# ==============================================================================
+# ESTRUCTURA ESTÁTICA DEL TORNEO (equipos, grupos y fixture "de fábrica")
+# ==============================================================================
+# Todo lo que se arma acá es SOLO LECTURA para el administrador: nombres de
+# tribus, equipos, participantes, grupos y el fixture original (quién
+# juega contra quién, y los horarios/canchas por defecto). El admin solo
+# puede modificar, desde el panel, el horario/cancha/marcador YA CARGADO
+# de un partido puntual — nunca esta estructura.
+# ==============================================================================
+
+def construir_partidos_base_grupo(disciplina, grupo_label, equipos_grupo):
+    """
+    Devuelve el fixture "de fábrica" (local, visitante, horario y cancha
+    por defecto) de un grupo, en un orden fijo que define el "slot" de
+    cada partido: la clave que se usa después para guardar sus
+    resultados en Supabase.
+    """
     if disciplina == "Fútbol Masculino":
-
-        fixture = {
-            "A": [
-                (0, 1, "09:30", "Cancha A"),
-                (1, 2, "10:30", "Cancha A"),
-                (2, 0, "11:30", "Cancha A"),
-            ],
-            "B": [
-                (0, 1, "09:30", "Cancha D"),
-                (1, 2, "10:30", "Cancha D"),
-                (2, 0, "11:30", "Cancha D"),
-            ],
-            "C": [
-                (0, 1, "10:00", "Cancha A"),
-                (1, 2, "11:00", "Cancha A"),
-                (2, 0, "12:00", "Cancha A"),
-            ],
-            "D": [
-                (0, 1, "10:00", "Cancha D"),
-                (1, 2, "11:00", "Cancha D"),
-                (2, 0, "12:00", "Cancha D"),
-            ],
+        fixture_por_grupo = {
+            "A": [(0, 1, "09:30", "Cancha A"), (1, 2, "10:30", "Cancha A"), (2, 0, "11:30", "Cancha A")],
+            "B": [(0, 1, "09:30", "Cancha D"), (1, 2, "10:30", "Cancha D"), (2, 0, "11:30", "Cancha D")],
+            "C": [(0, 1, "10:00", "Cancha A"), (1, 2, "11:00", "Cancha A"), (2, 0, "12:00", "Cancha A")],
+            "D": [(0, 1, "10:00", "Cancha D"), (1, 2, "11:00", "Cancha D"), (2, 0, "12:00", "Cancha D")],
         }
-
-        for grupo_label, equipos_grupo in grupos.items():
-            for local_idx, visitante_idx, horario, cancha in fixture[grupo_label]:
-                partidos.append(
-                    {
-                        "grupo": grupo_label,
-                        "local": equipos_grupo[local_idx],
-                        "visitante": equipos_grupo[visitante_idx],
-                        "marcador_local": None,
-                        "marcador_visitante": None,
-                        "horario": horario,
-                        "jugado": False,
-                        "cancha":cancha,
-                    }
-                )
-
-        # Reordenamos para mostrar el fixture exactamente
-        # como fue establecido oficialmente.
-        orden_oficial = [
-            ("A", "09:30"),
-            ("B", "09:30"),
-            ("C", "10:00"),
-            ("D", "10:00"),
-            ("A", "10:30"),
-            ("B", "10:30"),
-            ("C", "11:00"),
-            ("D", "11:00"),
-            ("A", "11:30"),
-            ("B", "11:30"),
-            ("C", "12:00"),
-            ("D", "12:00"),
+        return [
+            {
+                "local": equipos_grupo[local_idx],
+                "visitante": equipos_grupo[visitante_idx],
+                "horario_default": horario,
+                "cancha_default": cancha,
+            }
+            for local_idx, visitante_idx, horario, cancha in fixture_por_grupo[grupo_label]
         ]
 
-        partidos_ordenados = []
-
-        for grupo, horario in orden_oficial:
-            for partido in partidos:
-                if (
-                    partido["grupo"] == grupo
-                    and partido["horario"] == horario
-                    and partido not in partidos_ordenados
-                ):
-                    partidos_ordenados.append(partido)
-                    break
-
-        partidos = partidos_ordenados
-
-    # ==============================================================
-    # FÚTBOL FEMENINO
-    # ==============================================================
-    elif disciplina == "Fútbol Femenino":
-
-        fixture = {
-            "A": [
-                (0, 1, "12:50"),
-                (1, 2, "13:40"),
-                (2, 0, "14:30"),
-            ],
-            "B": [
-                (0, 1, "12:50"),
-                (1, 2, "13:40"),
-                (2, 0, "14:30"),
-            ],
-            "C": [
-                (0, 1, "12:50"),
-                (1, 2, "13:40"),
-                (2, 0, "14:30"),
-            ],
+    if disciplina == "Fútbol Femenino":
+        fixture_por_grupo = {
+            "A": [(0, 1, "12:50"), (2, 3, "12:50"), (2, 0, "13:40"), (3, 1, "13:40"), (3, 0, "14:30"), (1, 2, "14:30")],
+            "B": [(0, 1, "13:15"), (2, 3, "13:15"), (2, 0, "14:05"), (3, 1, "14:05"), (1, 2, "14:55"), (3, 0, "14:55")],
         }
-
-        # La disciplina femenina tiene 8 equipos.
-        # Se distribuyen en dos grupos de 4.
-        # Por eso usamos A y B.
-        fixture = {
-            "A": [
-                (0, 1, "12:50"),
-                (2, 3, "12:50"),
-                (2, 0, "13:40"),
-                (3, 1, "13:40"),
-                (3, 0, "14:30"),
-                (1, 2, "14:30"),
-            ],
-            "B": [
-                (0, 1, "13:15"),
-                (2, 3, "13:15"),
-                (2, 0, "14:05"),
-                (3, 1, "14:05"),
-                (1, 2, "14:55"),
-                (3, 0, "14:55"),
-            ],
-        }
-
-        for grupo_label, equipos_grupo in grupos.items():
-            if grupo_label not in fixture:
-                continue
-
-            for local_idx, visitante_idx, horario in fixture[grupo_label]:
-                partidos.append(
-                    {
-                        "grupo": grupo_label,
-                        "local": equipos_grupo[local_idx],
-                        "visitante": equipos_grupo[visitante_idx],
-                        "marcador_local": None,
-                        "marcador_visitante": None,
-                        "horario": horario,
-                        "jugado": False,
-                    }
-                )
-
-        # Orden oficial de todos los partidos femeninos
-        orden_oficial = [
-            ("A", "12:50"),
-            ("B", "13:15"),
-            ("A", "13:40"),
-            ("B", "14:05"),
-            ("A", "14:30"),
-            ("B", "14:55"),
+        return [
+            {
+                "local": equipos_grupo[local_idx],
+                "visitante": equipos_grupo[visitante_idx],
+                "horario_default": horario,
+                "cancha_default": "",
+            }
+            for local_idx, visitante_idx, horario in fixture_por_grupo[grupo_label]
         ]
 
-        partidos_ordenados = []
+    # Básquet y Vóley Mixto: todos contra todos dentro del grupo, sin
+    # horarios ni canchas predefinidos (el admin los completa).
+    partidos = []
+    for i in range(len(equipos_grupo)):
+        for j in range(i + 1, len(equipos_grupo)):
+            partidos.append({
+                "local": equipos_grupo[i],
+                "visitante": equipos_grupo[j],
+                "horario_default": "10:00",
+                "cancha_default": "",
+            })
+    return partidos
 
-        for grupo, horario in orden_oficial:
-            for partido in partidos:
-                if (
-                    partido["grupo"] == grupo
-                    and partido["horario"] == horario
-                    and partido not in partidos_ordenados
-                ):
-                    partidos_ordenados.append(partido)
 
-        partidos = partidos_ordenados
+@st.cache_resource(show_spinner=False)
+def construir_esqueletos():
+    """
+    Arma, UNA SOLA VEZ por proceso (y compartido por todas las sesiones,
+    porque no depende de ningún dato dinámico), la estructura completa y
+    estática del torneo: equipos, grupos y fixture de cada disciplina.
+    """
+    esqueletos = {}
+    for disciplina in DISCIPLINAS:
+        equipos = crear_equipos_disciplina(disciplina)
+        grupos_nombres = armar_grupos(equipos, disciplina)
 
-    # ==============================================================
-    # RESTO DE DISCIPLINAS
-    # ==============================================================
-    else:
-        for grupo_label, equipos_grupo in grupos.items():
-            partidos.extend(
-                generar_partidos_round_robin(
-                    equipos_grupo,
-                    grupo_label,
-                )
-            )
+        partidos_base = {
+            grupo_label: construir_partidos_base_grupo(disciplina, grupo_label, equipos_grupo)
+            for grupo_label, equipos_grupo in grupos_nombres.items()
+        }
 
-    return {
-        "equipos": equipos,
-        "grupos": grupos,
-        "partidos": partidos,
-        "fase_grupos_cerrada": False,
-        "clasificados": [],
-        "eliminatorias": {},
-        "campeon": None,
-        "campeon_tribu": None,
-        "bonus_otorgado": False,
-    }
+        esqueletos[disciplina] = {
+            "equipos": equipos,
+            "grupos_nombres": grupos_nombres,
+            "partidos_base": partidos_base,
+        }
+
+    return esqueletos
 
 
 def inicializar_estado():
+    """
+    Inicializa el estado propio de CADA sesión de navegador. Ya no incluye
+    los datos del torneo (equipos/partidos/resultados): esos ahora salen
+    siempre en vivo de construir_esqueletos() (estático) + Supabase
+    (dinámico), y por eso son iguales para todos los usuarios.
+    """
     if "app_inicializada" in st.session_state:
         return
 
     st.session_state.admin_logueado = False
-    st.session_state.datos = {
-        disciplina: inicializar_disciplina(disciplina)
-        for disciplina in DISCIPLINAS
-    }
+
+    # NOTA DE ALCANCE: el tablón, los Torneos Express y el cronograma NO
+    # forman parte de esta sincronización (el alcance pedido fue
+    # exclusivamente marcador/horario/cancha de los partidos), por lo que
+    # siguen viviendo acá, en session_state: cada edición del admin sobre
+    # estos 3 puntos solo se ve en su propia sesión/pestaña. Si en algún
+    # momento quieren que también se compartan, se resuelve con el mismo
+    # patrón (una tabla más en Supabase).
 
     # REEMPLAZAR CON ANUNCIOS REALES
     st.session_state.tablon = [
@@ -976,8 +991,7 @@ def inicializar_estado():
     ]
 
     # REEMPLAZAR CON TORNEOS EXPRESS REALES
-    st.session_state.torneos_express = [
-    ]
+    st.session_state.torneos_express = []
 
     # REEMPLAZAR CON CRONOGRAMA REAL
     st.session_state.cronograma = [
@@ -1059,7 +1073,7 @@ def calcular_tabla_posiciones(equipos_grupo, partidos_grupo):
 
 
 def nombre_a_tribu(disciplina, nombre_equipo):
-    for equipo in st.session_state.datos[disciplina]["equipos"]:
+    for equipo in construir_esqueletos()[disciplina]["equipos"]:
         if equipo["nombre"] == nombre_equipo:
             return equipo["tribu"]
     return None
@@ -1069,21 +1083,21 @@ def calcular_tabla_global():
     puntos = {t: 0 for t in TRIBUS}
     puntos_express = {t: 0 for t in TRIBUS}
 
-    for disciplina, datos in st.session_state.datos.items():
-        for grupo_label, equipos_grupo in datos["grupos"].items():
-            partidos_grupo = [
-                p for p in datos["partidos"] if p["grupo"] == grupo_label
-            ]
+    for disciplina in DISCIPLINAS:
+        esqueleto = construir_esqueletos()[disciplina]
 
-            tabla = calcular_tabla_posiciones(equipos_grupo, partidos_grupo)
+        for grupo_label, nombres_grupo in esqueleto["grupos_nombres"].items():
+            partidos_grupo = obtener_partidos_grupo(disciplina, grupo_label)
+            tabla = calcular_tabla_posiciones(nombres_grupo, partidos_grupo)
 
             for fila in tabla:
                 tribu = nombre_a_tribu(disciplina, fila["Equipo"])
                 if tribu:
                     puntos[tribu] += fila["Pts"]
 
-        if datos["campeon_tribu"]:
-            puntos[datos["campeon_tribu"]] += 5
+        _, _, campeon_tribu = construir_eliminatorias(disciplina)
+        if campeon_tribu:
+            puntos[campeon_tribu] += 5
 
     for evento in st.session_state.torneos_express:
         puntos[evento["tribu"]] += evento["puntos"]
@@ -1103,220 +1117,170 @@ def calcular_tabla_global():
     return filas
 
 
-def armar_llave_eliminatoria(disciplina):
-    datos = st.session_state.datos[disciplina]
-    grupos = datos["grupos"]
 
-    primeros = {}
-    segundos = {}
+def obtener_partidos_grupo(disciplina, grupo_label):
+    """
+    Combina el esqueleto ESTÁTICO del fixture (definido en main.py) con
+    los datos DINÁMICOS guardados en Supabase (marcador, horario, cancha,
+    si se jugó) para ese grupo. Se llama en cada ejecución del script, por
+    lo que siempre refleja el último estado guardado en la base de datos.
+    """
+    base_partidos = construir_esqueletos()[disciplina]["partidos_base"][grupo_label]
+    dinamicos = leer_resultados_partidos()
 
-    for grupo_label, equipos_grupo in grupos.items():
-        partidos_grupo = [
-            p for p in datos["partidos"] if p["grupo"] == grupo_label
-        ]
-        tabla = calcular_tabla_posiciones(equipos_grupo, partidos_grupo)
+    partidos = []
+    for slot, base in enumerate(base_partidos):
+        fila = dinamicos.get((disciplina, "grupo", grupo_label, slot), {})
+        partidos.append({
+            "grupo": grupo_label,
+            "slot": slot,
+            "local": base["local"],
+            "visitante": base["visitante"],
+            "horario": fila.get("horario") or base["horario_default"],
+            "cancha": fila.get("cancha") or base["cancha_default"],
+            "marcador_local": fila.get("marcador_local"),
+            "marcador_visitante": fila.get("marcador_visitante"),
+            "jugado": fila.get("jugado", False),
+        })
+    return partidos
 
+
+def resolver_ganador(partido):
+    """
+    Determina el ganador de un partido de eliminatorias.
+
+    - Si el admin cargó un "ganador_forzado" (caso especial: definición
+      por penales, walkover, etc., donde el marcador no alcanza para
+      reflejar quién avanza), se respeta esa decisión.
+    - Si no, el ganador se calcula automáticamente comparando el
+      marcador.
+    - Si el partido no se jugó, o el marcador está empatado y no hay
+      ganador_forzado, todavía no hay ganador definido.
+    """
+    if partido is None:
+        return None
+    if partido.get("ganador_forzado"):
+        return partido["ganador_forzado"]
+    if not partido["jugado"]:
+        return None
+    if partido["marcador_local"] is None or partido["marcador_visitante"] is None:
+        return None
+    if partido["marcador_local"] == partido["marcador_visitante"]:
+        return None
+    return (
+        partido["local"]
+        if partido["marcador_local"] > partido["marcador_visitante"]
+        else partido["visitante"]
+    )
+
+
+def obtener_clasificados(disciplina):
+    """Calcula el 1º y 2º de cada grupo a partir de los resultados actuales."""
+    esqueleto = construir_esqueletos()[disciplina]
+    primeros, segundos = {}, {}
+
+    for grupo_label, nombres_grupo in esqueleto["grupos_nombres"].items():
+        partidos_grupo = obtener_partidos_grupo(disciplina, grupo_label)
+        tabla = calcular_tabla_posiciones(nombres_grupo, partidos_grupo)
         if len(tabla) >= 2:
             primeros[grupo_label] = tabla[0]["Equipo"]
             segundos[grupo_label] = tabla[1]["Equipo"]
 
-    clasificados = list(primeros.values()) + list(segundos.values())
-    datos["clasificados"] = clasificados
+    return primeros, segundos
 
-    letras = list(grupos.keys())
+
+def construir_eliminatorias(disciplina):
+    """
+    Arma el cuadro de eliminatorias completo EN VIVO, a partir de:
+      - el estado "fase_grupos_cerrada" guardado en Supabase (decisión
+        manual del admin),
+      - los clasificados, calculados a partir de los resultados de
+        grupos ya cargados,
+      - los resultados de cada cruce eliminatorio guardados en Supabase.
+
+    No se guarda ningún cruce ni ganador calculado: todo se recalcula acá
+    cada vez que se llama a esta función, así siempre queda sincronizado
+    con los resultados cargados hasta el momento.
+
+    Devuelve: (eliminatorias, campeon, campeon_tribu)
+    """
+    if not leer_estado_disciplinas().get(disciplina, False):
+        return {}, None, None
+
+    primeros, segundos = obtener_clasificados(disciplina)
+    letras = list(construir_esqueletos()[disciplina]["grupos_nombres"].keys())
+    dinamicos = leer_resultados_partidos()
+
+    def construir_partido(ronda, slot, local, visitante, horario_default):
+        fila = dinamicos.get((disciplina, "eliminatoria", ronda, slot), {})
+        return {
+            "local": local,
+            "visitante": visitante,
+            "slot": slot,
+            "horario": fila.get("horario") or horario_default,
+            "cancha": fila.get("cancha") or "",
+            "marcador_local": fila.get("marcador_local"),
+            "marcador_visitante": fila.get("marcador_visitante"),
+            "jugado": fila.get("jugado", False),
+            "ganador_forzado": fila.get("ganador_forzado"),
+        }
+
+    eliminatorias = {}
 
     if TAMANO_GRUPO[disciplina] is None:
-        datos["eliminatorias"] = {
-            "Final": [
-                {
-                    "local": clasificados[0],
-                    "visitante": clasificados[1],
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "jugado": False,
-                }
-            ]
-        }
+        # Vóley Mixto: un único grupo, todos contra todos.
+        # Los 2 mejores de la tabla pasan directo a la Final.
+        clasificados = [primeros[letras[0]], segundos[letras[0]]]
+        eliminatorias["Final"] = [
+            construir_partido("Final", 0, clasificados[0], clasificados[1], "10:00")
+        ]
 
     elif len(letras) == 2:
+        # Fútbol Femenino / Básquet: 2 grupos -> Semifinales -> Final
+        horario_semis = "15:40" if disciplina == "Fútbol Femenino" else "10:00"
+        horario_final = "16:30" if disciplina == "Fútbol Femenino" else "10:00"
 
-        if disciplina == "Fútbol Femenino":
-            horario_semifinal_1 = "15:40"
-            horario_semifinal_2 = "15:40"
-            horario_final = "16:30"
-        else:
-            horario_semifinal_1 = "10:00"
-            horario_semifinal_2 = "10:00"
-            horario_final = "10:00"
-    
-        datos["eliminatorias"] = {
-            "Semifinales": [
-                {
-                    "local": primeros[letras[0]],
-                    "visitante": segundos[letras[1]],
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "horario": horario_semifinal_1,
-                    "jugado": False,
-                },
-                {
-                    "local": primeros[letras[1]],
-                    "visitante": segundos[letras[0]],
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "horario": horario_semifinal_2,
-                    "jugado": False,
-                },
-            ],
-    
-            "Final": [
-                {
-                    "local": None,
-                    "visitante": None,
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "horario": horario_final,
-                    "jugado": False,
-                }
-            ],
-        }
+        eliminatorias["Semifinales"] = [
+            construir_partido("Semifinales", 0, primeros[letras[0]], segundos[letras[1]], horario_semis),
+            construir_partido("Semifinales", 1, primeros[letras[1]], segundos[letras[0]], horario_semis),
+        ]
+
+        ganador_sf1 = resolver_ganador(eliminatorias["Semifinales"][0])
+        ganador_sf2 = resolver_ganador(eliminatorias["Semifinales"][1])
+
+        eliminatorias["Final"] = [
+            construir_partido("Final", 0, ganador_sf1, ganador_sf2, horario_final)
+        ]
 
     elif len(letras) == 4:
+        # Fútbol Masculino: 4 grupos -> Cuartos -> Semifinales -> Final
+        eliminatorias["Cuartos de Final"] = [
+            construir_partido("Cuartos de Final", 0, primeros[letras[0]], segundos[letras[2]], "12:30"),
+            construir_partido("Cuartos de Final", 1, primeros[letras[1]], segundos[letras[3]], "13:00"),
+            construir_partido("Cuartos de Final", 2, primeros[letras[2]], segundos[letras[0]], "13:30"),
+            construir_partido("Cuartos de Final", 3, primeros[letras[3]], segundos[letras[1]], "14:00"),
+        ]
 
-        if disciplina == "Fútbol Masculino":
-            horarios_cuartos = [
-                "12:30",
-                "13:00",
-                "13:30",
-                "14:00",
-            ]
-    
-            horarios_semifinales = [
-                "14:30",
-                "15:00",
-            ]
-    
-            horario_final = "16:00"
-    
-        else:
-            horarios_cuartos = ["10:00"] * 4
-            horarios_semifinales = ["10:00", "10:00"]
-            horario_final = "10:00"
-    
-        datos["eliminatorias"] = {
-            "Cuartos de Final": [
-                {
-                    "local": primeros[letras[0]],
-                    "visitante": segundos[letras[2]],
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "horario": horarios_cuartos[0],
-                    "jugado": False,
-                },
-                {
-                    "local": primeros[letras[1]],
-                    "visitante": segundos[letras[3]],
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "horario": horarios_cuartos[1],
-                    "jugado": False,
-                },
-                {
-                    "local": primeros[letras[2]],
-                    "visitante": segundos[letras[0]],
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "horario": horarios_cuartos[2],
-                    "jugado": False,
-                },
-                {
-                    "local": primeros[letras[3]],
-                    "visitante": segundos[letras[1]],
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "horario": horarios_cuartos[3],
-                    "jugado": False,
-                },
-            ],
-    
-            "Semifinales": [
-                {
-                    "local": None,
-                    "visitante": None,
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "horario": horarios_semifinales[0],
-                    "jugado": False,
-                },
-                {
-                    "local": None,
-                    "visitante": None,
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "horario": horarios_semifinales[1],
-                    "jugado": False,
-                },
-            ],
-    
-            "Final": [
-                {
-                    "local": None,
-                    "visitante": None,
-                    "marcador_local": None,
-                    "marcador_visitante": None,
-                    "horario": horario_final,
-                    "jugado": False,
-                }
-            ],
-        }
+        ganadores_cuartos = [resolver_ganador(p) for p in eliminatorias["Cuartos de Final"]]
 
-    datos["fase_grupos_cerrada"] = True
+        eliminatorias["Semifinales"] = [
+            construir_partido("Semifinales", 0, ganadores_cuartos[0], ganadores_cuartos[1], "14:30"),
+            construir_partido("Semifinales", 1, ganadores_cuartos[2], ganadores_cuartos[3], "15:00"),
+        ]
 
+        ganador_sf1 = resolver_ganador(eliminatorias["Semifinales"][0])
+        ganador_sf2 = resolver_ganador(eliminatorias["Semifinales"][1])
 
-def avanzar_ganadores(disciplina):
-    datos = st.session_state.datos[disciplina]
-    eliminatorias = datos["eliminatorias"]
-    rondas = list(eliminatorias.keys())
-
-    for i in range(len(rondas) - 1):
-        ronda_actual = eliminatorias[rondas[i]]
-        ronda_siguiente = eliminatorias[rondas[i + 1]]
-
-        ganadores = []
-
-        for partido in ronda_actual:
-            if partido["jugado"]:
-                if partido["marcador_local"] > partido["marcador_visitante"]:
-                    ganadores.append(partido["local"])
-                else:
-                    ganadores.append(partido["visitante"])
-            else:
-                ganadores.append(None)
-
-        for j, partido_siguiente in enumerate(ronda_siguiente):
-            if not partido_siguiente["jugado"]:
-                if j * 2 < len(ganadores):
-                    partido_siguiente["local"] = ganadores[j * 2]
-                if j * 2 + 1 < len(ganadores):
-                    partido_siguiente["visitante"] = ganadores[j * 2 + 1]
+        eliminatorias["Final"] = [
+            construir_partido("Final", 0, ganador_sf1, ganador_sf2, "16:00")
+        ]
 
     final = eliminatorias.get("Final", [None])[0]
+    campeon = resolver_ganador(final) if final else None
+    campeon_tribu = nombre_a_tribu(disciplina, campeon) if campeon else None
 
-    if (
-        final
-        and final["jugado"]
-        and not datos["bonus_otorgado"]
-        and final["local"]
-        and final["visitante"]
-    ):
-        if final["marcador_local"] > final["marcador_visitante"]:
-            ganador = final["local"]
-        else:
-            ganador = final["visitante"]
+    return eliminatorias, campeon, campeon_tribu
 
-        datos["campeon"] = ganador
-        datos["campeon_tribu"] = nombre_a_tribu(disciplina, ganador)
-        datos["bonus_otorgado"] = True
 
 
 # ==============================================================================
@@ -1440,10 +1404,14 @@ def vista_inicio():
     partidos_jugados = 0
     campeones = 0
 
-    for datos in st.session_state.datos.values():
-        total_partidos += len(datos["partidos"])
-        partidos_jugados += sum(1 for p in datos["partidos"] if p["jugado"])
-        if datos["campeon"]:
+    for disciplina in DISCIPLINAS:
+        for grupo_label in construir_esqueletos()[disciplina]["grupos_nombres"]:
+            partidos_grupo = obtener_partidos_grupo(disciplina, grupo_label)
+            total_partidos += len(partidos_grupo)
+            partidos_jugados += sum(1 for p in partidos_grupo if p["jugado"])
+
+        _, campeon, _ = construir_eliminatorias(disciplina)
+        if campeon:
             campeones += 1
 
     cols = st.columns(3)
@@ -1484,10 +1452,13 @@ def vista_inicio():
     st.markdown('<div class="section-label">Próximos partidos</div>', unsafe_allow_html=True)
 
     proximos = []
-    for disciplina, datos in st.session_state.datos.items():
-        for p in datos["partidos"]:
-            if not p["jugado"]:
-                proximos.append((disciplina, p))
+    for disciplina in DISCIPLINAS:
+        for grupo_label in construir_esqueletos()[disciplina]["grupos_nombres"]:
+            for p in obtener_partidos_grupo(disciplina, grupo_label):
+                if not p["jugado"]:
+                    proximos.append((disciplina, p))
+
+    proximos.sort(key=lambda item: item[1]["horario"])
 
     if proximos:
         for disciplina, partido in proximos[:6]:
@@ -1505,6 +1476,12 @@ def vista_inicio():
 
     if st.session_state.admin_logueado:
         with st.expander("Administrar tablón"):
+            st.caption(
+                "El tablón, los Torneos Express y el cronograma quedaron "
+                "fuera del alcance de la sincronización con base de datos "
+                "definida para este cambio, así que cada edición solo se "
+                "ve en tu propia sesión/pestaña."
+            )
             nuevo = st.text_input("Nuevo anuncio", key="nuevo_aviso")
             if st.button("Agregar anuncio", key="agregar_aviso"):
                 if nuevo.strip():
@@ -1520,6 +1497,7 @@ def vista_inicio():
                 if st.button("Eliminar anuncio", key="eliminar_aviso"):
                     st.session_state.tablon.remove(borrar)
                     st.rerun()
+
 
 
 # ==============================================================================
@@ -1561,7 +1539,7 @@ def vista_tribus():
     for disciplina in DISCIPLINAS:
         equipos_tribu = [
             e
-            for e in st.session_state.datos[disciplina]["equipos"]
+            for e in construir_esqueletos()[disciplina]["equipos"]
             if e["tribu"] == tribu_seleccionada
         ]
 
@@ -1586,6 +1564,7 @@ def vista_tribus():
                         )
 
 
+
 # ==============================================================================
 # VISTA DISCIPLINAS
 # ==============================================================================
@@ -1598,8 +1577,9 @@ def vista_disciplinas():
     )
 
     disciplina = st.selectbox("Seleccionar disciplina", DISCIPLINAS)
-    datos = st.session_state.datos[disciplina]
+    esqueleto = construir_esqueletos()[disciplina]
     limite = LIMITES_MARCADOR[disciplina]
+    fase_cerrada = leer_estado_disciplinas().get(disciplina, False)
 
     st.markdown(
         f"""
@@ -1607,8 +1587,8 @@ def vista_disciplinas():
             <div class="sport-name">{escape(disciplina)}</div>
             <div class="sport-meta">
                 Límite de marcador: {limite} |
-                Equipos: {len(datos['equipos'])} |
-                Grupos: {len(datos['grupos'])}
+                Equipos: {len(esqueleto['equipos'])} |
+                Grupos: {len(esqueleto['grupos_nombres'])}
             </div>
         </div>
         """,
@@ -1620,18 +1600,17 @@ def vista_disciplinas():
     )
 
     with tab_fixture:
-        for grupo_label, equipos_grupo in datos["grupos"].items():
+        for grupo_label in esqueleto["grupos_nombres"]:
             st.markdown(
                 f'<div class="section-label">Grupo {escape(str(grupo_label))}</div>',
                 unsafe_allow_html=True,
             )
 
-            partidos_grupo = [
-                p for p in datos["partidos"]
-                if p["grupo"] == grupo_label
-            ]
+            partidos_grupo = obtener_partidos_grupo(disciplina, grupo_label)
 
-            for idx, p in enumerate(partidos_grupo):
+            for p in partidos_grupo:
+                slot = p["slot"]
+
                 if st.session_state.admin_logueado:
                     render_match_card(disciplina, grupo_label, p)
 
@@ -1640,13 +1619,13 @@ def vista_disciplinas():
                     nuevo_horario = cols[0].text_input(
                         "Horario",
                         value=p["horario"],
-                        key=f"horario_{disciplina}_{grupo_label}_{idx}",
+                        key=f"horario_{disciplina}_{grupo_label}_{slot}",
                     )
 
                     cancha = cols[1].text_input(
                         "Cancha",
                         value=p.get("cancha", ""),
-                        key=f"cancha_{disciplina}_{grupo_label}_{idx}",
+                        key=f"cancha_{disciplina}_{grupo_label}_{slot}",
                     )
 
                     gl = cols[2].number_input(
@@ -1654,7 +1633,7 @@ def vista_disciplinas():
                         min_value=0,
                         max_value=limite,
                         value=p["marcador_local"] if p["marcador_local"] is not None else 0,
-                        key=f"gl_{disciplina}_{grupo_label}_{idx}",
+                        key=f"gl_{disciplina}_{grupo_label}_{slot}",
                     )
 
                     gv = cols[3].number_input(
@@ -1662,23 +1641,26 @@ def vista_disciplinas():
                         min_value=0,
                         max_value=limite,
                         value=p["marcador_visitante"] if p["marcador_visitante"] is not None else 0,
-                        key=f"gv_{disciplina}_{grupo_label}_{idx}",
+                        key=f"gv_{disciplina}_{grupo_label}_{slot}",
                     )
 
                     if cols[4].button(
                         "Guardar",
-                        key=f"guardar_{disciplina}_{grupo_label}_{idx}",
+                        key=f"guardar_{disciplina}_{grupo_label}_{slot}",
                     ):
-                        p["horario"] = nuevo_horario
-                        p["cancha"] = cancha
-                        p["marcador_local"] = int(gl)
-                        p["marcador_visitante"] = int(gv)
-                        p["jugado"] = True
+                        guardar_resultado_partido(
+                            disciplina, "grupo", grupo_label, slot,
+                            marcador_local=int(gl),
+                            marcador_visitante=int(gv),
+                            horario=nuevo_horario,
+                            cancha=cancha,
+                            jugado=True,
+                        )
                         st.rerun()
                 else:
                     render_match_card(disciplina, grupo_label, p)
 
-        if st.session_state.admin_logueado and not datos["fase_grupos_cerrada"]:
+        if st.session_state.admin_logueado and not fase_cerrada:
             st.markdown("---")
             st.warning(
                 "Al cerrar la fase de grupos se calculan los clasificados "
@@ -1709,7 +1691,7 @@ def vista_disciplinas():
                     "Confirmar avance",
                     key=f"confirmar_{disciplina}",
                 ):
-                    armar_llave_eliminatoria(disciplina)
+                    guardar_estado_fase(disciplina, True)
                     st.session_state[confirm_key] = False
                     st.rerun()
 
@@ -1721,38 +1703,34 @@ def vista_disciplinas():
                     st.rerun()
 
     with tab_posiciones:
-        for grupo_label, equipos_grupo in datos["grupos"].items():
+        for grupo_label, nombres_grupo in esqueleto["grupos_nombres"].items():
             st.markdown(
                 f'<div class="section-label">Grupo {escape(str(grupo_label))}</div>',
                 unsafe_allow_html=True,
             )
 
-            partidos_grupo = [
-                p for p in datos["partidos"]
-                if p["grupo"] == grupo_label
-            ]
-
-            tabla = calcular_tabla_posiciones(
-                equipos_grupo,
-                partidos_grupo,
-            )
-
+            partidos_grupo = obtener_partidos_grupo(disciplina, grupo_label)
+            tabla = calcular_tabla_posiciones(nombres_grupo, partidos_grupo)
             render_table(tabla)
 
     with tab_eliminatorias:
-        if not datos["fase_grupos_cerrada"]:
+        if not fase_cerrada:
             st.info(
                 "El cuadro de eliminatorias aparecerá cuando "
                 "el administrador cierre la fase de grupos."
             )
         else:
-            for ronda, partidos_ronda in datos["eliminatorias"].items():
+            eliminatorias, campeon, campeon_tribu = construir_eliminatorias(disciplina)
+
+            for ronda, partidos_ronda in eliminatorias.items():
                 st.markdown(
                     f'<div class="section-label">{escape(ronda)}</div>',
                     unsafe_allow_html=True,
                 )
 
-                for idx, p in enumerate(partidos_ronda):
+                for p in partidos_ronda:
+                    slot = p["slot"]
+
                     if p["local"] is None or p["visitante"] is None:
                         st.markdown(
                             """
@@ -1770,14 +1748,14 @@ def vista_disciplinas():
                     render_match_card(disciplina, ronda, p)
 
                     if st.session_state.admin_logueado and not p["jugado"]:
-                        cols = st.columns([1, 1, 1])
+                        cols = st.columns([1, 1, 2])
 
                         gl = cols[0].number_input(
                             "Local",
                             min_value=0,
                             max_value=limite,
                             value=0,
-                            key=f"elim_gl_{disciplina}_{ronda}_{idx}",
+                            key=f"elim_gl_{disciplina}_{ronda}_{slot}",
                         )
 
                         gv = cols[1].number_input(
@@ -1785,33 +1763,56 @@ def vista_disciplinas():
                             min_value=0,
                             max_value=limite,
                             value=0,
-                            key=f"elim_gv_{disciplina}_{ronda}_{idx}",
+                            key=f"elim_gv_{disciplina}_{ronda}_{slot}",
                         )
 
-                        if cols[2].button(
+                        ganador_manual = cols[2].selectbox(
+                            "¿Definido por penales / caso especial?",
+                            ["Automático (según marcador)", p["local"], p["visitante"]],
+                            key=f"elim_ganador_{disciplina}_{ronda}_{slot}",
+                            help=(
+                                "Usá esta opción solo cuando el marcador no "
+                                "alcanza para determinar quién avanza (por "
+                                "ejemplo, una definición por penales). En "
+                                "ese caso, elegí directamente al equipo "
+                                "ganador en vez de cargar un marcador."
+                            ),
+                        )
+
+                        if st.button(
                             "Guardar resultado",
-                            key=f"elim_guardar_{disciplina}_{ronda}_{idx}",
+                            key=f"elim_guardar_{disciplina}_{ronda}_{slot}",
                         ):
-                            if gl == gv:
+                            gano_forzado = (
+                                None if ganador_manual == "Automático (según marcador)"
+                                else ganador_manual
+                            )
+
+                            if gano_forzado is None and gl == gv:
                                 st.error(
                                     "No se permiten empates en eliminatorias. "
-                                    "Cargá el resultado final."
+                                    "Cargá el resultado final o indicá el "
+                                    "ganador manualmente (por ejemplo, por "
+                                    "penales)."
                                 )
                             else:
-                                p["marcador_local"] = int(gl)
-                                p["marcador_visitante"] = int(gv)
-                                p["jugado"] = True
-                                avanzar_ganadores(disciplina)
+                                guardar_resultado_partido(
+                                    disciplina, "eliminatoria", ronda, slot,
+                                    marcador_local=int(gl),
+                                    marcador_visitante=int(gv),
+                                    jugado=True,
+                                    ganador_forzado=gano_forzado,
+                                )
                                 st.rerun()
 
-            if datos["campeon"]:
+            if campeon:
                 st.markdown(
                     f"""
                     <div class="champion-banner">
                         <div class="champion-label">Campeón de {escape(disciplina)}</div>
-                        <div class="champion-name">{escape(datos['campeon'])}</div>
+                        <div class="champion-name">{escape(campeon)}</div>
                         <div style="color:#A8B0B6;">
-                            Tribu {escape(datos['campeon_tribu'])}
+                            Tribu {escape(campeon_tribu)}
                             | Bonificación: +5 puntos
                         </div>
                     </div>
@@ -2070,6 +2071,12 @@ def vista_login_admin():
 # ==============================================================================
 
 def main():
+    # Refresco automático: cada 15 segundos se vuelve a ejecutar el script,
+    # lo que fuerza una nueva lectura de Supabase (sujeta al caché de 5s).
+    # Así, un usuario que dejó la página abierta también ve los resultados
+    # nuevos sin tener que tocar nada.
+    st_autorefresh(interval=15_000, key="auto_refresco")
+
     with st.sidebar:
         st.markdown(
             """
@@ -2097,6 +2104,11 @@ def main():
                 '<span class="public-badge">Vista pública</span>',
                 unsafe_allow_html=True,
             )
+
+        if st.button("🔄 Actualizar ahora", use_container_width=True):
+            leer_resultados_partidos.clear()
+            leer_estado_disciplinas.clear()
+            st.rerun()
 
         st.markdown(
             '<div style="height:18px;"></div>',
