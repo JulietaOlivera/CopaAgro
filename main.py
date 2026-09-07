@@ -1111,7 +1111,7 @@ def construir_partidos_base_grupo(disciplina, grupo_label, equipos_grupo):
             for local_idx, visitante_idx, horario, cancha in fixture_por_grupo[grupo_label]
         ]
 
-        if disciplina == "Fútbol Femenino":
+    if disciplina == "Fútbol Femenino":
         fixture_por_grupo = {
             "A": [
                 (0, 1, "12:50", "Cancha A"),
