@@ -34,7 +34,7 @@ TRIBUS = {
 EQUIPOS_POR_TRIBU = {
     "Fútbol Masculino": 3,
     "Fútbol Femenino": 2,
-    "Básquet": 2,
+    "Básquet": 1,
     "Vóley Mixto": 1,
 }
 
@@ -733,25 +733,230 @@ def crear_equipos_disciplina(disciplina):
 
         return equipos
 
+        # ==============================================================
+    # FÚTBOL FEMENINO
     # ==============================================================
-    # RESTO DE DISCIPLINAS
+
+    if disciplina == "Fútbol Femenino":
+
+        equipos_reales_futbol_femenino = [
+            # Grupo A
+            ("Skabyos Rosa", "Trigo"),
+            ("Santa Julia", "Maíz"),
+            ("Las 7 Plagas", "Holando"),
+            ("Las Sin Nombre", "Angus"),
+
+            # Grupo B
+            ("Skabyos Negro", "Holando"),
+            ("Cuatro de Copas", "Angus"),
+            ("Tercer Tiempo", "Trigo"),
+            ("Inter de Fourier", "Maíz"),
+        ]
+
+        jugadores_futbol_femenino = {
+            "Cuatro de Copas": [
+                "Vilches Guillermina",
+                "Carobolante Melina",
+                "Cristaldo Maschio Catalina",
+                "Benedetich Caluva Mikaela",
+                "Godoy Antonella",
+                "Sosa Nicol",
+                "Heis Milagros",
+            ],
+
+            "Las Sin Nombre": [
+                "Marian Ailen Ramírez hordt",
+                "Brisa Franco",
+                "Monzón Sobrado María Pía",
+                "Sofía leiss",
+                "Agostina Chávez",
+                "Martina Dominguez Wasinger",
+                "Antonella Belén morel",
+            ],
+
+            "Skabyos Rosa": [
+                "Faes Lucia",
+                "Rojas Camila",
+                "Frizzo Alfonsina",
+                "Bargas Micaela",
+                "Sanchez Virginia",
+                "Godoy Florencia",
+            ],
+
+            "Skabyos Negro": [
+                "Osuna Delfina",
+                "Santomil Trinidad",
+                "Pessolani Yael",
+                "Santomil Florencia",
+                "Galian Angie",
+                "Segovia Keila",
+            ],
+
+            "Las 7 Plagas": [
+                "Evelyn Andrian Manucci",
+                "Yoycelin De la Fuente",
+                "Langoni Eliana",
+                "Ramel Carolina",
+                "Saenz Virginia",
+                "Zoe Caceres",
+                "Astrid Gerstner",
+            ],
+
+            "Santa Julia": [
+                "Rodriguez Maite",
+                "Victoria Viganoni",
+                "Juana Cuberli",
+                "Agustina Montañana",
+                "Juana Nasi no",
+                "Josefina Giorgi",
+                "Melina Tarabini",
+            ],
+
+            "Tercer Tiempo": [
+                "Mohr Andrea",
+                "Lopez Catalina",
+                "Stibel Belén",
+                "Naef Julieta",
+                "Galian Angelina",
+                "Gastiazoro Catalina",
+                "Kristafor Magali",
+            ],
+
+            "Inter de Fourier": [
+                "Perea Camila",
+                "Farias Evelyn",
+                "Marin Ticiana",
+                "Molina Serena",
+                "Kruk Oriana",
+                "Olivo Josefina",
+                "Franco Brisa",
+            ],
+        }
+
+        for nombre, tribu in equipos_reales_futbol_femenino:
+            equipos.append(
+                {
+                    "nombre": nombre,
+                    "tribu": tribu,
+                    "participantes": jugadores_futbol_femenino.get(nombre, []),
+                }
+            )
+
+        return equipos
+
+
+    # ==============================================================
+    # BÁSQUET
     # ==============================================================
 
-    for n in range(total_equipos):
-        tribu = orden_tribus[n % len(orden_tribus)]
-        contador_tribu[tribu] += 1
+    if disciplina == "Básquet":
 
-        nombre = f"Equipo {contador_tribu[tribu]} {disciplina} ({tribu})"
+        equipos_reales_basquet = [
+            ("Jarritos", "Trigo"),
+            ("Rancho FC", "Maíz"),
+            ("Lo Viejo Funciona", "Holando"),
+            ("Pizza Libre", "Angus"),
+        ]
 
-        equipos.append(
-            {
-                "nombre": nombre,
-                "tribu": tribu,
-                "participantes": [f"Jugador/a {p + 1}" for p in range(8)],
-            }
-        )
+        jugadores_basquet = {
+            "Pizza Libre": [
+                "Butus Santiago",
+                "Brouchoud Valentín",
+                "Cardoso Mateo",
+                "Sancio Joaquin",
+            ],
 
-    return equipos
+            "Jarritos": [
+                "Ballina Tadeo",
+                "Nillus Benicio",
+                "Fernández Joaquín",
+                "Pacifico Santino",
+            ],
+
+            "Rancho FC": [
+                "Ricardo trossero",
+                "Jerónimo Rochi",
+                "Jerónimo sivilla",
+                "Santino stamatti",
+            ],
+
+            "Lo Viejo Funciona": [
+                "Varisco Jeremías",
+                "Maximiliano Volker",
+                "Gatter Jonathan",
+                "Sandoval Juan Francisco",
+            ],
+        }
+
+        for nombre, tribu in equipos_reales_basquet:
+            equipos.append(
+                {
+                    "nombre": nombre,
+                    "tribu": tribu,
+                    "participantes": jugadores_basquet.get(nombre, []),
+                }
+            )
+
+        return equipos
+
+
+    # ==============================================================
+    # VÓLEY MIXTO
+    # ==============================================================
+
+    if disciplina == "Vóley Mixto":
+
+        equipos_reales_voley = [
+            ("Truco", "Trigo"),
+            ("Lo Paso Después", "Maíz"),
+            ("X", "Holando"),
+            ("Casi Jugamos", "Angus"),
+        ]
+
+        jugadores_voley = {
+            "Lo Paso Después": [
+                "Joaquin garay",
+                "Marquez santiago",
+                "Benitez agustin",
+                "Godoy camila",
+                "Diaz julieta",
+                "Diaz candela",
+            ],
+
+            "Casi Jugamos": [
+                "Galarraga, Eileen Delfina",
+                "Kühn, Lucas Gabriel",
+                "Weiss, Camilo",
+                "Gareiz,Pablo",
+                "Aguirre, Virginia",
+                "Perez, Ignacio",
+                "Zalisñak, Andrei",
+            ],
+
+            "Truco": [
+                "Herrera, Sofia",
+                "Carrasco, Irina",
+                "Duelli, Martín",
+                "Romero, Nazarena",
+                "Sánchez, Xiomara",
+                "Sivila, Matías",
+                "Schneider, Bruno",
+                "Schneider, Facundo",
+            ],
+
+            "X": [],
+        }
+
+        for nombre, tribu in equipos_reales_voley:
+            equipos.append(
+                {
+                    "nombre": nombre,
+                    "tribu": tribu,
+                    "participantes": jugadores_voley.get(nombre, []),
+                }
+            )
+
+        return equipos
 
     
 
@@ -906,21 +1111,37 @@ def construir_partidos_base_grupo(disciplina, grupo_label, equipos_grupo):
             for local_idx, visitante_idx, horario, cancha in fixture_por_grupo[grupo_label]
         ]
 
-    if disciplina == "Fútbol Femenino":
+        if disciplina == "Fútbol Femenino":
         fixture_por_grupo = {
-            "A": [(0, 1, "12:50"), (2, 3, "12:50"), (2, 0, "13:40"), (3, 1, "13:40"), (3, 0, "14:30"), (1, 2, "14:30")],
-            "B": [(0, 1, "13:15"), (2, 3, "13:15"), (2, 0, "14:05"), (3, 1, "14:05"), (1, 2, "14:55"), (3, 0, "14:55")],
+            "A": [
+                (0, 1, "12:50", "Cancha A"),
+                (2, 3, "12:50", "Cancha C"),
+                (2, 0, "13:40", "Cancha A"),
+                (3, 1, "13:40", "Cancha C"),
+                (3, 0, "14:30", "Cancha A"),
+                (1, 2, "14:30", "Cancha C"),
+            ],
+
+            "B": [
+                (0, 1, "13:15", "Cancha A"),
+                (2, 3, "13:15", "Cancha C"),
+                (2, 0, "14:05", "Cancha A"),
+                (3, 1, "14:05", "Cancha C"),
+                (1, 2, "14:55", "Cancha A"),
+                (3, 0, "14:55", "Cancha C"),
+            ],
         }
+
         return [
             {
                 "local": equipos_grupo[local_idx],
                 "visitante": equipos_grupo[visitante_idx],
                 "horario_default": horario,
-                "cancha_default": "",
+                "cancha_default": cancha,
             }
-            for local_idx, visitante_idx, horario in fixture_por_grupo[grupo_label]
+            for local_idx, visitante_idx, horario, cancha
+            in fixture_por_grupo[grupo_label]
         ]
-
     # Básquet y Vóley Mixto: todos contra todos dentro del grupo, sin
     # horarios ni canchas predefinidos (el admin los completa).
     partidos = []
