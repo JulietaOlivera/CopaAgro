@@ -1482,7 +1482,7 @@ def construir_eliminatorias(disciplina):
         horario_semis = "15:40"
         horario_final = "16:30"
 
-                eliminatorias["Semifinales"] = [
+            eliminatorias["Semifinales"] = [
             construir_partido(
                 "Semifinales",
                 0,
