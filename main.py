@@ -935,7 +935,6 @@ def construir_partidos_base_grupo(disciplina, grupo_label, equipos_grupo):
     return partidos
 
 
-@st.cache_resource(show_spinner=False)
 def construir_esqueletos():
     """
     Arma, UNA SOLA VEZ por proceso (y compartido por todas las sesiones,
