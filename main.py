@@ -1212,13 +1212,18 @@ def inicializar_estado():
 
     # REEMPLAZAR CON CRONOGRAMA REAL
     st.session_state.cronograma = [
-        {"horario": "08:00", "actividad": "Apertura y bienvenida"},
-        {"horario": "09:00", "actividad": "Inicio de fase de grupos"},
-        {"horario": "13:00", "actividad": "Pausa - Almuerzo"},
-        {"horario": "14:30", "actividad": "Reanudación de partidos"},
-        {"horario": "18:00", "actividad": "Instancias finales"},
-        {"horario": "19:30", "actividad": "Premiación"},
-        {"horario": "21:00", "actividad": "Actividad de cierre"},
+        {"horario": "09:00", "actividad": "Apertura del evento"},
+        {"horario": "09:30", "actividad": "Inicio de Vóley"},
+        {"horario": "09:30", "actividad": "Inicio de Fútbol masculino"},
+        {"horario": "12:50", "actividad": "Inicio de Fútbol femenino"},
+        {"horario": "13:45", "actividad": "Final de Vóley"},
+        {"horario": "14:40", "actividad": "Inicio de Básquet"},
+        {"horario": "16:00", "actividad": "Final de Fútbol masculino"},
+        {"horario": "16:00", "actividad": "Inicio del Tercer tiempo"},
+        {"horario": "16:30", "actividad": "Final de Fútbol femenino"},
+        {"horario": "17:00", "actividad": "Final de Básquet"},
+        {"horario": "17:00", "actividad": "Fin de jornada deportiva"},
+        {"horario": "18:00", "actividad": "Entrega de premios"},
     ]
 
     st.session_state.app_inicializada = True
@@ -2187,31 +2192,33 @@ def vista_cronograma():
         "Horarios y actividades principales del torneo.",
     )
 
-    for idx, item in enumerate(st.session_state.cronograma):
-        if st.session_state.admin_logueado:
-            cols = st.columns([1, 3])
+    for item in st.session_state.cronograma:
+        st.markdown(
+            f"""
+            <div class="timeline-item">
+                <div class="timeline-time">{escape(item['horario'])}</div>
+                <div class="timeline-event">{escape(item['actividad'])}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
-            item["horario"] = cols[0].text_input(
-                "Horario",
-                value=item["horario"],
-                key=f"cron_h_{idx}",
-            )
-
-            item["actividad"] = cols[1].text_input(
-                "Actividad",
-                value=item["actividad"],
-                key=f"cron_a_{idx}",
-            )
-        else:
-            st.markdown(
-                f"""
-                <div class="timeline-item">
-                    <div class="timeline-time">{escape(item['horario'])}</div>
-                    <div class="timeline-event">{escape(item['actividad'])}</div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+    st.markdown(
+        """
+        <div style="
+            margin-top:18px;
+            padding:12px 16px;
+            border-left:3px solid #35B86B;
+            color:#AEB9A8;
+            font-size:12px;
+            line-height:1.5;
+        ">
+            Para ver horarios específicos de cada partido ir a
+            <strong style="color:#FFFFFF;">Disciplinas</strong>.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 # ==============================================================================
