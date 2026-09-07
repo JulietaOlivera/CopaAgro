@@ -544,20 +544,20 @@ def crear_equipos_disciplina(disciplina):
 
     if disciplina == "Fútbol Masculino":
         equipos_reales_futbol_masculino = [
-            ("La Vino", "Maíz"),
-            ("La Choloneta", "Trigo"),
-            ("Yo Te Vi", "Angus"),
+            ("La Vino", "Trigo"),
+            ("La Choloneta", "Angus"),
+            ("Yo Te Vi", "Maíz"),
 
             ("El Rancho FC", "Maíz"),
             ("Cantora de Basto", "Trigo"),
-            ("Luchoneta", "Holando"),
+            ("Luchoneta", "Angus"),
 
-            ("Los Fabianes", "Maíz"),
-            ("Real Ganadero", "Angus"),
-            ("Deportivo Litoral", "Holando"),
+            ("Los Fabianes", "Holando"),
+            ("Real Ganadero", "Maíz"),
+            ("Deportivo Litoral", "Trigo"),
 
-            ("Atlético Barbecho", "Trigo"),
-            ("La Chancha Wacha", "Angus"),
+            ("Atlético Barbecho", "Angus"),
+            ("La Chancha Wacha", "Holando"),
             ("Real Bañil", "Holando"),
         ]
 
@@ -660,7 +660,7 @@ def crear_equipos_disciplina(disciplina):
                 "Juan Cruz Lozze",
                 "Mateo Franco",
                 "Franco Voucher",
-                "Mauro Sandrigo",
+                "Marcos Villarino",
                 "Francisco Parisi",
                 "Martín Bustos",
                 "Francisco Roskopf",
