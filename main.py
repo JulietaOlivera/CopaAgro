@@ -544,21 +544,25 @@ def crear_equipos_disciplina(disciplina):
 
     if disciplina == "Fútbol Masculino":
         equipos_reales_futbol_masculino = [
+            # Grupo A (Índices 0, 1, 2)
             ("La Vino", "Trigo"),
             ("La Choloneta", "Angus"),
-            ("Yo Te Vi", "Maíz"),
+            ("Real Bañil", "Holando"),
 
+            # Grupo B (Índices 3, 4, 5)
             ("El Rancho FC", "Maíz"),
             ("Cantora de Basto", "Trigo"),
-            ("Luchoneta", "Angus"),
+            ("Luchoneta FC", "Angus"),
 
+            # Grupo C (Índices 6, 7, 8)
             ("Los Fabianes", "Holando"),
             ("Real Ganadero", "Maíz"),
             ("Deportivo Litoral", "Trigo"),
 
+            # Grupo D (Índices 9, 10, 11)
             ("Atlético Barbecho", "Angus"),
             ("La Chancha Wacha", "Holando"),
-            ("Real Bañil", "Holando"),
+            ("Yo Te Vi", "Maíz"),
         ]
 
         jugadores_futbol_masculino = {
