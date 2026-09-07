@@ -1504,7 +1504,7 @@ def construir_eliminatorias(disciplina):
         ganador_sf1 = resolver_ganador(eliminatorias["Semifinales"][0])
         ganador_sf2 = resolver_ganador(eliminatorias["Semifinales"][1])
 
-                eliminatorias["Final"] = [
+        eliminatorias["Final"] = [
             construir_partido(
                 "Final",
                 0,
