@@ -1428,14 +1428,21 @@ def construir_eliminatorias(disciplina):
     letras = list(construir_esqueletos()[disciplina]["grupos_nombres"].keys())
     dinamicos = leer_resultados_partidos()
 
-    def construir_partido(ronda, slot, local, visitante, horario_default):
+    def construir_partido(
+    ronda,
+    slot,
+    local,
+    visitante,
+    horario_default,
+    cancha_default="",
+    ):
         fila = dinamicos.get((disciplina, "eliminatoria", ronda, slot), {})
         return {
             "local": local,
             "visitante": visitante,
             "slot": slot,
             "horario": fila.get("horario") or horario_default,
-            "cancha": fila.get("cancha") or "",
+            "cancha": fila.get("cancha") or cancha_default,
             "marcador_local": fila.get("marcador_local"),
             "marcador_visitante": fila.get("marcador_visitante"),
             "jugado": fila.get("jugado", False),
@@ -1444,29 +1451,68 @@ def construir_eliminatorias(disciplina):
 
     eliminatorias = {}
 
-    if TAMANO_GRUPO[disciplina] is None:
-        # Vóley Mixto: un único grupo, todos contra todos.
-        # Los 2 mejores de la tabla pasan directo a la Final.
-        clasificados = [primeros[letras[0]], segundos[letras[0]]]
+    if disciplina == "Básquet" or disciplina == "Vóley Mixto":
+        # Básquet y Vóley:
+        # un único grupo, todos contra todos.
+        # Los 2 mejores pasan directamente a la Final.
+
+        clasificados = [
+            primeros[letras[0]],
+            segundos[letras[0]],
+        ]
+
+        horario_final = (
+            "17:00"
+            if disciplina == "Básquet"
+            else "13:45"
+        )
+
         eliminatorias["Final"] = [
-            construir_partido("Final", 0, clasificados[0], clasificados[1], "10:00")
+            construir_partido(
+                "Final",
+                0,
+                clasificados[0],
+                clasificados[1],
+                horario_final,
+            )
         ]
 
     elif len(letras) == 2:
         # Fútbol Femenino / Básquet: 2 grupos -> Semifinales -> Final
-        horario_semis = "15:40" if disciplina == "Fútbol Femenino" else "10:00"
-        horario_final = "16:30" if disciplina == "Fútbol Femenino" else "10:00"
+        horario_semis = "15:40"
+        horario_final = "16:30"
 
-        eliminatorias["Semifinales"] = [
-            construir_partido("Semifinales", 0, primeros[letras[0]], segundos[letras[1]], horario_semis),
-            construir_partido("Semifinales", 1, primeros[letras[1]], segundos[letras[0]], horario_semis),
+                eliminatorias["Semifinales"] = [
+            construir_partido(
+                "Semifinales",
+                0,
+                primeros[letras[0]],
+                segundos[letras[1]],
+                horario_semis,
+                "Cancha A",
+            ),
+            construir_partido(
+                "Semifinales",
+                1,
+                primeros[letras[1]],
+                segundos[letras[0]],
+                horario_semis,
+                "Cancha C",
+            ),
         ]
 
         ganador_sf1 = resolver_ganador(eliminatorias["Semifinales"][0])
         ganador_sf2 = resolver_ganador(eliminatorias["Semifinales"][1])
 
-        eliminatorias["Final"] = [
-            construir_partido("Final", 0, ganador_sf1, ganador_sf2, horario_final)
+                eliminatorias["Final"] = [
+            construir_partido(
+                "Final",
+                0,
+                ganador_sf1,
+                ganador_sf2,
+                horario_final,
+                "Cancha C",
+            )
         ]
 
     elif len(letras) == 4:
