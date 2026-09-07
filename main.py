@@ -1,14 +1,7 @@
 # ==============================================================================
 # LA COPA AGRO - Aplicación de gestión de torneo deportivo
 # ==============================================================================
-# Versión con interfaz visual personalizada.
-#
-# IMPORTANTE:
-# - La lógica del torneo se mantiene basada en st.session_state.
-# - Los datos de ejemplo están marcados para ser reemplazados.
-# - Para una versión definitiva con varios usuarios simultáneos se recomienda
-#   conectar esta aplicación a una base de datos persistente.
-# ==============================================================================
+
 
 import streamlit as st
 from html import escape
@@ -74,7 +67,7 @@ st.markdown(
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap');
 
     :root {
-        --bg: #0B0D0F;
+        --bg: #052900;
         --panel: #13171B;
         --panel-2: #1A2025;
         --line: rgba(255,255,255,.10);
