@@ -68,7 +68,7 @@ st.markdown(
 
     :root {
         --bg: #041701;
-        --panel: #13171B;
+        --panel: #0A2508;
         --panel-2: #1A2025;
         --line: rgba(255,255,255,.10);
         --text: #F4F5F6;
