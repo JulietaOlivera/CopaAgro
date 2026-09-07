@@ -67,7 +67,7 @@ st.markdown(
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap');
 
     :root {
-        --bg: #052900;
+        --bg: #041701;
         --panel: #13171B;
         --panel-2: #1A2025;
         --line: rgba(255,255,255,.10);
