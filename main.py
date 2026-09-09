@@ -45,13 +45,6 @@ TAMANO_GRUPO = {
     "Vóley Mixto": None,
 }
 
-LIMITES_MARCADOR = {
-    "Fútbol Masculino": 30,
-    "Fútbol Femenino": 30,
-    "Básquet": 150,
-    "Vóley Mixto": 50,
-}
-
 CLASIFICADOS_POR_GRUPO = 2
 DISCIPLINAS = list(EQUIPOS_POR_TRIBU.keys())
 NOMBRES_GRUPOS = ["A", "B", "C", "D", "E", "F"]
@@ -2095,8 +2088,20 @@ def vista_disciplinas():
 
     disciplina = st.selectbox("Seleccionar disciplina", DISCIPLINAS)
     esqueleto = construir_esqueletos()[disciplina]
-    limite = LIMITES_MARCADOR[disciplina]
     fase_cerrada = leer_estado_disciplinas().get(disciplina, False)
+    
+    st.markdown(
+        f"""
+        <div class="sport-card" style="margin-bottom:20px;">
+            <div class="sport-name">{escape(disciplina)}</div>
+            <div class="sport-meta">
+                Equipos: {len(esqueleto['equipos'])} |
+                Grupos: {len(esqueleto['grupos_nombres'])}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     tab_fixture, tab_posiciones, tab_eliminatorias = st.tabs(
         ["Fixture", "Tabla de posiciones", "Eliminatorias"]
