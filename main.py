@@ -909,7 +909,7 @@ def crear_equipos_disciplina(disciplina):
         equipos_reales_voley = [
             ("Truco", "Trigo"),
             ("Lo Paso Después", "Maíz"),
-            ("X", "Holando"),
+            ("Cosecha de Prótesis", "Holando"),
             ("Casi Jugamos", "Angus"),
         ]
 
@@ -944,7 +944,15 @@ def crear_equipos_disciplina(disciplina):
                 "Schneider, Facundo",
             ],
 
-            "X": [],
+            "Cosecha de Prótesis": [
+                "Kiara Sticker",
+                "Paula Lonardi",
+                "Guido Galizzi",
+                "Johann Schinke",
+                "Ciro Presas",
+                "Francisco Gersstner",
+                "María Fernanda Merlo",
+            ],
         }
 
         for nombre, tribu in equipos_reales_voley:
