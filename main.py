@@ -1229,18 +1229,48 @@ def construir_partidos_base_grupo(disciplina, grupo_label, equipos_grupo):
             for local_idx, visitante_idx, horario, cancha
             in fixture_por_grupo[grupo_label]
         ]
-    # Básquet y Vóley Mixto: todos contra todos dentro del grupo, sin
-    # horarios ni canchas predefinidos (el admin los completa).
-    partidos = []
-    for i in range(len(equipos_grupo)):
-        for j in range(i + 1, len(equipos_grupo)):
-            partidos.append({
-                "local": equipos_grupo[i],
-                "visitante": equipos_grupo[j],
-                "horario_default": "10:00",
-                "cancha_default": "",
-            })
-    return partidos
+
+    if disciplina == "Básquet":
+        fixture_por_grupo = {
+            "A": [
+                (0, 1, "14:40", "Cancha 1"),
+                (2, 3, "14:55", "Cancha 1"),
+                (0, 2, "15:15", "Cancha 1"),
+                (1, 3, "15:30", "Cancha 1"),
+                (0, 3, "15:50", "Cancha 1"),
+                (1, 2, "16:05", "Cancha 1"),
+            ],
+        }
+        return [
+            {
+                "local": equipos_grupo[local_idx],
+                "visitante": equipos_grupo[visitante_idx],
+                "horario_default": horario,
+                "cancha_default": cancha,
+            }
+            for local_idx, visitante_idx, horario, cancha in fixture_por_grupo[grupo_label]
+        ]
+
+    if disciplina == "Vóley Mixto":
+        fixture_por_grupo = {
+            "Único": [
+                (0, 1, "09:30", "Cancha 2"),
+                (2, 3, "10:15", "Cancha 2"),
+                (0, 2, "11:00", "Cancha 2"),
+                (1, 3, "11:45", "Cancha 2"),
+                (0, 3, "12:30", "Cancha 2"),
+                (1, 2, "13:00", "Cancha 2"),
+            ],
+        }
+        return [
+            {
+                "local": equipos_grupo[local_idx],
+                "visitante": equipos_grupo[visitante_idx],
+                "horario_default": horario,
+                "cancha_default": cancha,
+            }
+            for local_idx, visitante_idx, horario, cancha in fixture_por_grupo[grupo_label]
+        ]
 
 
 def construir_esqueletos():
