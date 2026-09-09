@@ -744,7 +744,7 @@ def crear_equipos_disciplina(disciplina):
             ("Skabyos Rosa", "Trigo"),
             ("Santa Julia", "Maíz"),
             ("Las 7 Plagas", "Holando"),
-            ("Las Sin Nombre", "Angus"),
+            ("Ultimo Cuarto", "Angus"),
 
             # Grupo B
             ("Skabyos Negro", "Holando"),
@@ -764,7 +764,7 @@ def crear_equipos_disciplina(disciplina):
                 "Heis Milagros",
             ],
 
-            "Las Sin Nombre": [
+            "Último Cuarto": [
                 "Marian Ailen Ramírez hordt",
                 "Brisa Franco",
                 "Monzón Sobrado María Pía",
