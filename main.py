@@ -41,7 +41,7 @@ EQUIPOS_POR_TRIBU = {
 TAMANO_GRUPO = {
     "Fútbol Masculino": 3,
     "Fútbol Femenino": 4,
-    "Básquet": 4,
+    "Básquet": None,
     "Vóley Mixto": None,
 }
 
