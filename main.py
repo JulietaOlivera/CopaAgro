@@ -744,7 +744,7 @@ def crear_equipos_disciplina(disciplina):
             ("Skabyos Rosa", "Trigo"),
             ("Santa Julia", "Maíz"),
             ("Las 7 Plagas", "Holando"),
-            ("Ultimo Cuarto", "Angus"),
+            ("Último Cuarto", "Angus"),
 
             # Grupo B
             ("Skabyos Negro", "Holando"),
