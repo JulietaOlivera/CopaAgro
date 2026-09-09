@@ -632,7 +632,7 @@ def crear_equipos_disciplina(disciplina):
                 "Máximo Rojas",
             ],
         
-            "Luchoneta": [
+            "Luchoneta FC": [
                 "Nicolás Domínguez",
                 "Bautista Cáceres Taffarel",
                 "Joaquín Rodríguez",
