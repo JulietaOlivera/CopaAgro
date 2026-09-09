@@ -1076,6 +1076,85 @@ def guardar_estado_fase(disciplina, cerrada):
     ).execute()
     leer_estado_disciplinas.clear()
 
+# ==============================================================================
+# ACTIVIDADES EXTRA (inscriptos + puntos manuales por tribu)
+# ==============================================================================
+
+@st.cache_data(ttl=5, show_spinner=False)
+def leer_inscritos_actividades_extra():
+    """Trae TODOS los inscriptos a actividades extra, ordenados por tribu y apellido."""
+    cliente = obtener_cliente_db()
+    respuesta = (
+        cliente.table("inscritos_actividades_extra")
+        .select("*")
+        .order("tribu")
+        .order("apellido")
+        .execute()
+    )
+    return respuesta.data
+
+
+def guardar_inscripcion_actividad_extra(nombre, apellido, tribu):
+    """
+    Inscribe una persona en Actividades Extra dentro de una tribu.
+    Devuelve (True, "") si se guardó bien, o (False, mensaje) si la
+    persona ya está inscripta en OTRA tribu (lo bloquea el trigger de
+    Supabase) o si ocurre cualquier otro error.
+    """
+    cliente = obtener_cliente_db()
+    try:
+        cliente.table("inscritos_actividades_extra").insert(
+            {"nombre": nombre.strip(), "apellido": apellido.strip(), "tribu": tribu}
+        ).execute()
+    except Exception as error:
+        mensaje = getattr(error, "message", None) or str(error)
+        if "ya está inscripta en otra tribu" in mensaje:
+            return False, "Esa persona ya está inscripta en otra tribu."
+        return False, f"No se pudo guardar la inscripción ({mensaje})."
+
+    leer_inscritos_actividades_extra.clear()
+    return True, ""
+
+
+@st.cache_data(ttl=5, show_spinner=False)
+def leer_historial_puntos_extra():
+    """Trae TODO el historial de puntos de Actividades Extra, más recientes primero."""
+    cliente = obtener_cliente_db()
+    respuesta = (
+        cliente.table("historial_puntos_extra")
+        .select("*")
+        .order("creado_en", desc=True)
+        .execute()
+    )
+    return respuesta.data
+
+
+def guardar_punto_extra(tribu, concepto, puntos):
+    """Agrega un evento de puntos (positivo o negativo) al historial de una tribu."""
+    cliente = obtener_cliente_db()
+    cliente.table("historial_puntos_extra").insert(
+        {"tribu": tribu, "concepto": concepto, "puntos": puntos}
+    ).execute()
+    leer_historial_puntos_extra.clear()
+
+
+def calcular_puntos_extra_por_tribu():
+    """
+    Devuelve (totales, historial_por_tribu):
+      - totales: {tribu: suma de puntos}
+      - historial_por_tribu: {tribu: [eventos, más nuevo primero]}
+    """
+    totales = {t: 0 for t in TRIBUS}
+    historial_por_tribu = {t: [] for t in TRIBUS}
+
+    for evento in leer_historial_puntos_extra():
+        tribu = evento["tribu"]
+        if tribu in totales:
+            totales[tribu] += evento["puntos"]
+            historial_por_tribu[tribu].append(evento)
+
+    return totales, historial_por_tribu
+
 
 # ==============================================================================
 # ESTRUCTURA ESTÁTICA DEL TORNEO (equipos, grupos y fixture "de fábrica")
@@ -1321,11 +1400,16 @@ def calcular_tabla_global():
         if campeon_tribu:
             puntos[campeon_tribu] += 5
 
-    for evento in st.session_state.torneos_express:
+     for evento in st.session_state.torneos_express:
         puntos[evento["tribu"]] += evento["puntos"]
         puntos_express[evento["tribu"]] += evento["puntos"]
 
+    puntos_extra, _ = calcular_puntos_extra_por_tribu()
+    for tribu, total in puntos_extra.items():
+        puntos[tribu] += total
+        puntos_express[tribu] += total
     filas = []
+
     for tribu in TRIBUS:
         filas.append(
             {
@@ -1831,8 +1915,123 @@ def vista_tribus():
                             unsafe_allow_html=True,
                         )
 
+    # ---- Actividades Extra --------------------------------------------------
+    st.markdown(
+        '<div class="section-label">Actividades Extra</div>',
+        unsafe_allow_html=True,
+    )
 
+    inscritos_tribu = [
+        i for i in leer_inscritos_actividades_extra()
+        if i["tribu"] == tribu_seleccionada
+    ]
 
+    with st.expander(f"Inscriptos en Actividades Extra ({len(inscritos_tribu)})"):
+        if inscritos_tribu:
+            for persona in inscritos_tribu:
+                st.markdown(
+                    f'<div style="padding:5px 0;color:#B9C0C5;">'
+                    f'{escape(persona["apellido"])}, {escape(persona["nombre"])}</div>',
+                    unsafe_allow_html=True,
+                )
+        else:
+            st.caption("Todavía no hay inscriptos en esta tribu.")
+
+    _, historial_por_tribu = calcular_puntos_extra_por_tribu()
+
+    with st.expander("Historial de puntos de esta tribu"):
+        eventos_extra = historial_por_tribu[tribu_seleccionada]
+        eventos_deportes = []
+        for disciplina in DISCIPLINAS:
+            _, _, campeon_tribu = construir_eliminatorias(disciplina)
+            if campeon_tribu == tribu_seleccionada:
+                eventos_deportes.append(f"Campeón de {disciplina}: +5 puntos")
+
+        if not eventos_extra and not eventos_deportes:
+            st.caption("Todavía no hay puntos registrados para esta tribu.")
+        else:
+            for evento in eventos_extra:
+                signo = "+" if evento["puntos"] >= 0 else ""
+                st.markdown(
+                    f'<div style="padding:5px 0;color:#B9C0C5;">'
+                    f'{escape(evento["concepto"])}: {signo}{evento["puntos"]} puntos</div>',
+                    unsafe_allow_html=True,
+                )
+            for texto in eventos_deportes:
+                st.markdown(
+                    f'<div style="padding:5px 0;color:#B9C0C5;">{escape(texto)}</div>',
+                    unsafe_allow_html=True,
+                )
+    if st.session_state.admin_logueado:
+        st.markdown("---")
+        st.markdown(
+            '<div class="section-label">Administrar Actividades Extra</div>',
+            unsafe_allow_html=True,
+        )
+
+        with st.expander("➕ Inscribir participante"):
+            with st.form("form_inscripcion_extra"):
+                nombre = st.text_input("Nombre")
+                apellido = st.text_input("Apellido")
+                tribu_inscripcion = st.selectbox(
+                    "Tribu", list(TRIBUS.keys()), key="tribu_inscripcion_extra"
+                )
+                enviado = st.form_submit_button("Inscribir")
+
+                if enviado:
+                    if not nombre.strip() or not apellido.strip():
+                        st.error("Completá nombre y apellido.")
+                    else:
+                        ok, mensaje = guardar_inscripcion_actividad_extra(
+                            nombre, apellido, tribu_inscripcion
+                        )
+                        if ok:
+                            st.success(f"{nombre} {apellido} inscripto en {tribu_inscripcion}.")
+                            st.rerun()
+                        else:
+                            st.error(mensaje)
+
+        with st.expander("🏆 Puntos por Actividades Extra", expanded=True):
+            totales_extra, _ = calcular_puntos_extra_por_tribu()
+
+            st.caption("Ajuste rápido:")
+            cols = st.columns(4)
+            for col, tribu in zip(cols, TRIBUS):
+                with col:
+                    st.markdown(f"**{tribu}**")
+                    c1, c2, c3 = st.columns([1, 1.4, 1])
+                    if c1.button("➖", key=f"restar_extra_{tribu}"):
+                        guardar_punto_extra(tribu, "Ajuste rápido", -1)
+                        st.rerun()
+                    c2.markdown(
+                        f'<div style="text-align:center;font-family:\'Bebas Neue\',sans-serif;'
+                        f'font-size:28px;">{totales_extra[tribu]}</div>',
+                        unsafe_allow_html=True,
+                    )
+                    if c3.button("➕", key=f"sumar_extra_{tribu}"):
+                        guardar_punto_extra(tribu, "Ajuste rápido", 1)
+                        st.rerun()
+
+            st.markdown("---")
+            st.caption("Sumar puntos con un concepto (queda en el historial):")
+
+            with st.form("form_puntos_extra"):
+                tribu_puntos = st.selectbox(
+                    "Tribu", list(TRIBUS.keys()), key="tribu_puntos_extra"
+                )
+                concepto = st.text_input(
+                    "Actividad / concepto", placeholder="Ejemplo: Torneo de Truco"
+                )
+                puntos = st.number_input("Puntos a sumar", value=1, step=1)
+                enviado_puntos = st.form_submit_button("Agregar al historial")
+
+                if enviado_puntos:
+                    if not concepto.strip():
+                        st.error("Indicá en qué actividad se obtuvieron los puntos.")
+                    else:
+                        guardar_punto_extra(tribu_puntos, concepto.strip(), int(puntos))
+                        st.success("Puntos agregados al historial.")
+                        st.rerun()
 # ==============================================================================
 # VISTA DISCIPLINAS
 # ==============================================================================
