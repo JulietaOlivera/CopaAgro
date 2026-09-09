@@ -807,7 +807,7 @@ def crear_equipos_disciplina(disciplina):
                 "Victoria Viganoni",
                 "Juana Cuberli",
                 "Agustina Montañana",
-                "Juana Nasi no",
+                "Juana Nasi",
                 "Josefina Giorgi",
                 "Melina Tarabini",
             ],
