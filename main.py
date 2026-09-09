@@ -1232,7 +1232,7 @@ def construir_partidos_base_grupo(disciplina, grupo_label, equipos_grupo):
 
     if disciplina == "Básquet":
         fixture_por_grupo = {
-            "A": [
+            "Único": [
                 (0, 1, "14:40", "Cancha 1"),
                 (2, 3, "14:55", "Cancha 1"),
                 (0, 2, "15:15", "Cancha 1"),
