@@ -1400,7 +1400,7 @@ def calcular_tabla_global():
         if campeon_tribu:
             puntos[campeon_tribu] += 5
 
-     for evento in st.session_state.torneos_express:
+    for evento in st.session_state.torneos_express:
         puntos[evento["tribu"]] += evento["puntos"]
         puntos_express[evento["tribu"]] += evento["puntos"]
 
