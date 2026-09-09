@@ -1767,10 +1767,13 @@ def vista_inicio():
     for disciplina in DISCIPLINAS:
         for grupo_label in construir_esqueletos()[disciplina]["grupos_nombres"]:
             partidos_grupo = obtener_partidos_grupo(disciplina, grupo_label)
-            total_partidos = len(partidos_grupo) + 12
+            total_partidos += len(partidos_grupo)
             partidos_jugados += sum(1 for p in partidos_grupo if p["jugado"])
 
-        _, campeon, _ = construir_eliminatorias(disciplina)
+        eliminatorias, campeon, _ = construir_eliminatorias(disciplina)
+        for ronda, partidos_ronda in eliminatorias.items():
+            total_partidos += len(partidos_ronda)
+            partidos_jugados += sum(1 for p in partidos_ronda if p.get("jugado", False))
         if campeon:
             campeones += 1
 
