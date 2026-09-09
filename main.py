@@ -2098,20 +2098,6 @@ def vista_disciplinas():
     limite = LIMITES_MARCADOR[disciplina]
     fase_cerrada = leer_estado_disciplinas().get(disciplina, False)
 
-    st.markdown(
-        f"""
-        <div class="sport-card" style="margin-bottom:20px;">
-            <div class="sport-name">{escape(disciplina)}</div>
-            <div class="sport-meta">
-                Límite de marcador: {limite} |
-                Equipos: {len(esqueleto['equipos'])} |
-                Grupos: {len(esqueleto['grupos_nombres'])}
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
     tab_fixture, tab_posiciones, tab_eliminatorias = st.tabs(
         ["Fixture", "Tabla de posiciones", "Eliminatorias"]
     )
