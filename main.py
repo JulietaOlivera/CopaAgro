@@ -684,16 +684,16 @@ def crear_equipos_disciplina(disciplina):
             ],
         
             "Atlético Barbecho": [
-                "Martín Gaona",
-                "Nahuel Müller",
-                "Sabá Flores",
-                "Enzo Gigena",
-                "Benicio Fontana",
-                "Deian Landra",
-                "Francisco Humaran",
-                "Lisandro Pagnone",
-                "Pedro Pérez",
-                "Lisandro Silvestre",
+                "Álvarez Lautaro",
+                "Cardozo Marcos",
+                "Dittler Federico",
+                "Graf Santiago",
+                "Lovver Emiliano",
+                "Meier Franco",
+                "Palavecino Iván",
+                "Schinke Johann",
+                "Tournour Enzo",
+                "Veron Jeremias",
             ],
         
             "La Chancha Wacha": [
