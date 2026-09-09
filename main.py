@@ -2225,63 +2225,6 @@ def vista_cronograma():
 # VISTA PREMIOS Y REGLAMENTO
 # ==============================================================================
 
-def vista_premios():
-    render_page_header(
-        "Información",
-        "Premios y reglamento",
-        "Sistema de puntuación y reglas de competencia.",
-    )
-
-    cols = st.columns(3)
-
-    with cols[0]:
-        st.markdown(
-            """
-            <div class="rule-card">
-                <div class="rule-title">Premiación</div>
-                <div style="color:#B7C0C7;line-height:1.7;">
-                    La tribu campeona es la que acumule más puntos
-                    totales al finalizar el torneo.
-                    Cada disciplina entrega un campeón que suma
-                    5 puntos adicionales a su tribu.
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-    with cols[1]:
-        st.markdown(
-            """
-            <div class="rule-card">
-                <div class="rule-title">Puntuación</div>
-                <div style="color:#B7C0C7;line-height:1.7;">
-                    Fase de grupos:<br>
-                    Victoria: 3 puntos<br>
-                    Empate: 1 punto<br>
-                    Derrota: 0 puntos<br>
-                    Campeón de disciplina: +5 puntos
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-    with cols[2]:
-        st.markdown(
-            """
-            <div class="rule-card">
-                <div class="rule-title">Desempates</div>
-                <div style="color:#B7C0C7;line-height:1.7;">
-                    En grupos se utiliza la diferencia de tantos.
-                    En la tabla global se priorizan los puntos de
-                    Torneos Express en caso de igualdad.
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
 
 # ==============================================================================
 # LOGIN ADMIN
@@ -2412,7 +2355,6 @@ def main():
             "Disciplinas",
             "Tabla global",
             "Cronograma",
-            "Premios y reglamento",
             "Administración",
         ]
 
