@@ -17,7 +17,7 @@ from streamlit_autorefresh import st_autorefresh
 
 st.set_page_config(
     page_title="La Copa Agro",
-    page_icon= "logo3.png",
+    page_icon= "logo4.png",
     layout="wide",
     initial_sidebar_state="expanded",
 )
