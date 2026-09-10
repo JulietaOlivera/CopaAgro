@@ -73,6 +73,10 @@ st.markdown(
         font-family: 'Montserrat', sans-serif;
     }
 
+    [data-testid="stIconMaterial"] {
+        font-family: 'Material Symbols Rounded' !important;
+    }
+
     .stApp {
         background:
             radial-gradient(circle at 85% 5%, rgba(244,197,66,.10), transparent 26%),
