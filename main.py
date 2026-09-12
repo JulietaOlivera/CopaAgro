@@ -673,7 +673,7 @@ def crear_equipos_disciplina(disciplina):
                 "Alexis Rodrigo Liturbe",
                 "Máximo Liturbe",
                 "Alejo Bermudes",
-                " Alejo Pross",
+                "Alejo Pross",
                 "Iván Peña",
                 "Jere Varisco",
                 "Namir Pavé",
