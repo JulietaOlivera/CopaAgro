@@ -2143,7 +2143,6 @@ def vista_disciplinas():
                     gl = cols[2].number_input(
                         "Local",
                         min_value=0,
-                        max_value=limite,
                         value=p["marcador_local"] if p["marcador_local"] is not None else 0,
                         key=f"gl_{disciplina}_{grupo_label}_{slot}",
                     )
@@ -2151,7 +2150,6 @@ def vista_disciplinas():
                     gv = cols[3].number_input(
                         "Visitante",
                         min_value=0,
-                        max_value=limite,
                         value=p["marcador_visitante"] if p["marcador_visitante"] is not None else 0,
                         key=f"gv_{disciplina}_{grupo_label}_{slot}",
                     )
@@ -2265,7 +2263,6 @@ def vista_disciplinas():
                         gl = cols[0].number_input(
                             "Local",
                             min_value=0,
-                            max_value=limite,
                             value=0,
                             key=f"elim_gl_{disciplina}_{ronda}_{slot}",
                         )
@@ -2273,7 +2270,6 @@ def vista_disciplinas():
                         gv = cols[1].number_input(
                             "Visitante",
                             min_value=0,
-                            max_value=limite,
                             value=0,
                             key=f"elim_gv_{disciplina}_{ronda}_{slot}",
                         )
