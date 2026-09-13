@@ -639,7 +639,7 @@ def crear_equipos_disciplina(disciplina):
                 "Enedin Matías Echaniz",
                 "Tobías Fabri",
                 "Hahn Julián Mazzeto",
-                "Juan Schwartz",
+                "Santino Briosso",
             ],
         
             "Los Fabianes": [
@@ -674,7 +674,7 @@ def crear_equipos_disciplina(disciplina):
                 "Alexis Rodrigo Liturbe",
                 "Máximo Liturbe",
                 "Alejo Bermudes",
-                "Alejo Pross",
+                "Uriel Almara",
                 "Iván Peña",
                 "Jere Varisco",
                 "Namir Pavé",
@@ -682,21 +682,21 @@ def crear_equipos_disciplina(disciplina):
             ],
         
             "Atlético Barbecho": [
-                "Álvarez Lautaro",
-                "Cardozo Marcos",
-                "Dittler Federico",
-                "Graf Santiago",
-                "Lovver Emiliano",
-                "Meier Franco",
-                "Palavecino Iván",
-                "Schinke Johann",
-                "Tournour Enzo",
-                "Veron Jeremias",
+                "Lautaro Álvarez",
+                "Marcos Cardozo",
+                "Federico Dittler",
+                "Santiago Graf",
+                "Emiliano Lovver",
+                "Franco Meier",
+                "Iván Palavecino",
+                "Johann Schinke",
+                "Enzo Tournour",
+                "Jeremias Verón",
             ],
         
             "La Chancha Wacha": [
                 "Martín Gaona",
-                "Nahuel Müller",
+                "Hugo Rosales",
                 "Sabá Flores",
                 "Enzo Gigena",
                 "Benicio Fontana",
@@ -747,61 +747,62 @@ def crear_equipos_disciplina(disciplina):
             # Grupo B
             ("Skabyos Negro", "Holando"),
             ("Cuatro de Copas", "Angus"),
-            ("Tercer Tiempo", "Trigo"),
+            ("Cooling Break", "Trigo"),
             ("Inter de Fourier", "Maíz"),
         ]
 
         jugadores_futbol_femenino = {
             "Cuatro de Copas": [
-                "Vilches Guillermina",
-                "Carobolante Melina",
-                "Cristaldo Maschio Catalina",
-                "Benedetich Caluva Mikaela",
-                "Godoy Antonella",
-                "Sosa Nicol",
-                "Heis Milagros",
+                "Guillermina Vilches",
+                "Melina Carobolante",
+                "Catalina Cristaldo Maschio",
+                "Mikaela Benedetich Caluva",
+                "Antonella Godoy",
+                "Nicol Sosa",
+                "Milagros Heis",
             ],
 
             "Último Cuarto": [
-                "Marian Ailen Ramírez hordt",
-                "Brisa Franco",
-                "Monzón Sobrado María Pía",
-                "Sofía leiss",
+                "Marian Ailen Ramírez Hordt",
+                "Micaela Ramírez",
+                "Yazmin Mayr",
+                "Sofía Leiss",
                 "Agostina Chávez",
                 "Martina Dominguez Wasinger",
-                "Antonella Belén morel",
+                "Antonella Belén Morel",
             ],
 
             "Skabyos Rosa": [
-                "Faes Lucia",
-                "Rojas Camila",
-                "Frizzo Alfonsina",
-                "Bargas Micaela",
-                "Sanchez Virginia",
-                "Godoy Florencia",
+                "Lucia Faes",
+                "Camila Rojas",
+                "Alfonsina Frizzo",
+                "Micaela Bargas",
+                "Virginia Sanchez",
+                "Florencia Godoy",
+                "Wanda Mendoza",
             ],
 
             "Skabyos Negro": [
-                "Osuna Delfina",
-                "Santomil Trinidad",
-                "Pessolani Yael",
-                "Santomil Florencia",
-                "Galian Angie",
-                "Segovia Keila",
+                "Delfina Osuna",
+                "Trinidad Santomil",
+                "Yael Pessolani",
+                "Florencia Santomil",
+                "Rebeca Hipólito",
+                "Keila Segovia",
             ],
 
             "Las 7 Plagas": [
                 "Evelyn Andrian Manucci",
                 "Yoycelin De la Fuente",
-                "Langoni Eliana",
-                "Ramel Carolina",
-                "Saenz Virginia",
+                "Eliana Langoni",
+                "Carolina Ramel",
+                "Virginia Saenz",
                 "Zoe Caceres",
                 "Astrid Gerstner",
             ],
 
             "Santa Julia": [
-                "Rodriguez Maite",
+                "Maite Rodriguez",
                 "Victoria Viganoni",
                 "Juana Cuberli",
                 "Agustina Montañana",
@@ -810,24 +811,24 @@ def crear_equipos_disciplina(disciplina):
                 "Melina Tarabini",
             ],
 
-            "Tercer Tiempo": [
-                "Mohr Andrea",
-                "Lopez Catalina",
-                "Stibel Belén",
-                "Naef Julieta",
-                "Galian Angelina",
-                "Gastiazoro Catalina",
-                "Kristafor Magali",
+            "Cooling Break": [
+                "Andrea Mohr",
+                "Catalina Lopez",
+                "Belén Stibel",
+                "Julieta Naef",
+                "Angelina Galian",
+                "Catalina Gastiazoro",
+                "Magali Kristafor",
             ],
 
             "Inter de Fourier": [
-                "Perea Camila",
-                "Farias Evelyn",
-                "Marin Ticiana",
-                "Molina Serena",
-                "Kruk Oriana",
-                "Olivo Josefina",
-                "Franco Brisa",
+                "Camila Perea",
+                "Evelyn Farias",
+                "Ticiana Marin",
+                "Serena Molina",
+                "Oriana Kruk",
+                "Josefina Olivo",
+                "Brisa Franco",
             ],
         }
 
@@ -858,31 +859,31 @@ def crear_equipos_disciplina(disciplina):
 
         jugadores_basquet = {
             "Pizza Libre": [
-                "Butus Santiago",
-                "Brouchoud Valentín",
-                "Cardoso Mateo",
-                "Sancio Joaquin",
+                "Santiago Butus",
+                "Valentín Brouchoud",
+                "Mateo Cardoso",
+                "Joaquin Sancio",
             ],
 
             "Jarritos": [
-                "Ballina Tadeo",
-                "Nillus Benicio",
-                "Fernández Joaquín",
-                "Pacifico Santino",
+                "Tadeo Ballina",
+                "Benicio Nillius",
+                "Joaquín Fernández",
+                "Santino Pacifico",
             ],
 
             "Rancho FC": [
-                "Ricardo trossero",
+                "Ricardo Trossero",
                 "Jerónimo Rochi",
-                "Jerónimo sivilla",
-                "Santino stamatti",
+                "Jerónimo Sivilla",
+                "Santino Stamatti",
             ],
 
             "Lo Viejo Funciona": [
                 "Varisco Jeremías",
                 "Maximiliano Volker",
-                "Gatter Jonathan",
-                "Sandoval Juan Francisco",
+                "Jonathan Gatter",
+                "Juan Francisco Sandoval",
             ],
         }
 
@@ -906,40 +907,40 @@ def crear_equipos_disciplina(disciplina):
 
         equipos_reales_voley = [
             ("Truco", "Trigo"),
-            ("Lo Paso Después", "Maíz"),
+            ("Rancho VC", "Maíz"),
             ("Cosecha de Prótesis", "Holando"),
             ("Casi Jugamos", "Angus"),
         ]
 
         jugadores_voley = {
-            "Lo Paso Después": [
-                "Joaquin garay",
-                "Marquez santiago",
-                "Benitez agustin",
-                "Godoy camila",
-                "Diaz julieta",
-                "Diaz candela",
+            "Rancho VC": [
+                "Joaquin Garay",
+                "Santiago Marquez",
+                "Agustin Benitez",
+                "Camila Godoy",
+                "Julieta Diaz",
+                "Candela Diaz",
             ],
 
             "Casi Jugamos": [
-                "Galarraga, Eileen Delfina",
-                "Kühn, Lucas Gabriel",
-                "Weiss, Camilo",
-                "Gareiz,Pablo",
-                "Aguirre, Virginia",
-                "Perez, Ignacio",
-                "Zalisñak, Andrei",
+                "Eileen Delfina Galarraga",
+                "Lucas Gabriel Kühn",
+                "Camilo Weiss",
+                "Pablo Gareiz",
+                "Virginia Aguirre",
+                "Ignacio Perez",
+                "Andrei Zalisñak",
             ],
 
             "Truco": [
-                "Herrera, Sofia",
-                "Carrasco, Irina",
-                "Duelli, Martín",
-                "Romero, Nazarena",
-                "Sánchez, Xiomara",
-                "Sivila, Matías",
-                "Schneider, Bruno",
-                "Schneider, Facundo",
+                "Sofia Herrera",
+                "Irina Carrasco",
+                "Martín Duelli",
+                "Nazarena Romero",
+                "Xiomara Sánchez",
+                "Matías Sivila",
+                "Bruno Schneider",
+                "Facundo Schneider",
             ],
 
             "Cosecha de Prótesis": [
