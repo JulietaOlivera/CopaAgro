@@ -2165,11 +2165,31 @@ def vista_disciplinas():
                     )
 
                     if cols[4].button(
-                        "Guardar",
-                        key=f"guardar_{disciplina}_{grupo_label}_{slot}",
+                        "Guardar horario/cancha",
+                        key=f"guardar_horario_{disciplina}_{grupo_label}_{slot}",
                     ):
                         guardar_resultado_partido(
-                            disciplina, "grupo", grupo_label, slot,
+                            disciplina,
+                            "grupo",
+                            grupo_label,
+                            slot,
+                            horario=nuevo_horario,
+                            cancha=cancha,
+                            marcador_local=p["marcador_local"],
+                            marcador_visitante=p["marcador_visitante"],
+                            jugado=p["jugado"],
+                        )
+                        st.rerun()
+                    
+                    if st.button(
+                        "Guardar resultado",
+                        key=f"guardar_resultado_{disciplina}_{grupo_label}_{slot}",
+                    ):
+                        guardar_resultado_partido(
+                            disciplina,
+                            "grupo",
+                            grupo_label,
+                            slot,
                             marcador_local=int(gl),
                             marcador_visitante=int(gv),
                             horario=nuevo_horario,
