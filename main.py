@@ -2541,7 +2541,7 @@ def vista_login_admin():
                     "marcador_local": None,
                     "marcador_visitante": None,
                     "ganador_forzado": None,
-                }).eq("fase", "eliminatoria").execute()
+                }).eq("tipo", "eliminatoria").execute()
 
                 cliente_db.table("historial_puntos_extra").delete().neq(
                     "tribu", "__NINGUNA__"
