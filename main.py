@@ -2537,16 +2537,33 @@ def vista_login_admin():
                 }).neq("disciplina", "__NINGUNA__").execute()
 
                 cliente_db.table("resultados_partidos").update({
+                    "jugado": False,
                     "marcador_local": None,
                     "marcador_visitante": None,
-                    "jugado": False,
                     "ganador_forzado": None,
-                }).eq("tipo", "eliminatoria").execute()
+                }).eq("fase", "eliminatoria").execute()
 
                 cliente_db.table("historial_puntos_extra").delete().neq(
                     "tribu", "__NINGUNA__"
                 ).execute()
 
+                guardar_estado_fase(
+                    "Fútbol Masculino",
+                    False,
+                )
+                guardar_estado_fase(
+                    "Fútbol Femenino",
+                    False,
+                )
+                guardar_estado_fase(
+                    "Básquet",
+                    False,
+                )
+                guardar_estado_fase(
+                    "Vóley Mixto",
+                    False,
+                )
+                
                 leer_resultados_partidos.clear()
                 leer_historial_puntos_extra.clear()
                 
