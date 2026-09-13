@@ -692,7 +692,6 @@ def crear_equipos_disciplina(disciplina):
                 "Iván Palavecino",
                 "Johann Schinke",
                 "Enzo Tournour",
-                "Jeremias Verón",
             ],
         
             "La Chancha Wacha": [
