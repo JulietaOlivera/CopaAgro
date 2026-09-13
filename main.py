@@ -2031,25 +2031,6 @@ def vista_tribus():
                             st.error(mensaje)
 
         with st.expander("🏆 Puntos por Actividades Extra", expanded=True):
-            totales_extra, _ = calcular_puntos_extra_por_tribu()
-
-            st.caption("Ajuste rápido:")
-            cols = st.columns(4)
-            for col, tribu in zip(cols, TRIBUS):
-                with col:
-                    st.markdown(f"**{tribu}**")
-                    c1, c2, c3 = st.columns([1, 1.4, 1])
-                    if c1.button("➖", key=f"restar_extra_{tribu}"):
-                        guardar_punto_extra(tribu, "Ajuste rápido", -1)
-                        st.rerun()
-                    c2.markdown(
-                        f'<div style="text-align:center;font-family:\'Bebas Neue\',sans-serif;'
-                        f'font-size:28px;">{totales_extra[tribu]}</div>',
-                        unsafe_allow_html=True,
-                    )
-                    if c3.button("➕", key=f"sumar_extra_{tribu}"):
-                        guardar_punto_extra(tribu, "Ajuste rápido", 1)
-                        st.rerun()
 
             st.markdown("---")
             st.caption("Sumar puntos con un concepto (queda en el historial):")
