@@ -1786,13 +1786,6 @@ def vista_inicio():
                 render_tribe_card(fila["Tribu"], fila["Puntos Totales"])
 
     st.markdown('<div class="section-label">Estado del torneo</div>', unsafe_allow_html=True)
-
-    PARTIDOS_ELIMINATORIA_POR_DISCIPLINA = {
-        "Fútbol Masculino": 7,  # 4 cuartos + 2 semifinales + 1 final
-        "Fútbol Femenino": 3,   # 2 semifinales + 1 final
-        "Básquet": 1,           # solo final
-        "Vóley Mixto": 1,       # solo final
-    }
     
     total_partidos = 0
     partidos_jugados = 0
@@ -1804,7 +1797,6 @@ def vista_inicio():
             total_partidos += len(partidos_grupo)
             partidos_jugados += sum(1 for p in partidos_grupo if p["jugado"])
 
-        total_partidos += PARTIDOS_ELIMINATORIA_POR_DISCIPLINA[disciplina]
 
         eliminatorias, campeon, _ = construir_eliminatorias(disciplina)
         for ronda, partidos_ronda in eliminatorias.items():
