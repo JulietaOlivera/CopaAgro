@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from supabase import create_client, Client
 from streamlit_autorefresh import st_autorefresh
 
+import json
 
 # ==============================================================================
 # CONFIGURACIÓN
@@ -1501,6 +1502,13 @@ def resolver_ganador(partido):
     if partido is None:
         return None
     if partido.get("ganador_forzado"):
+        try:
+            datos_penales = json.loads(partido["ganador_forzado"])
+            if isinstance(datos_penales, dict):
+                return datos_penales["ganador"]
+        except (json.JSONDecodeError, TypeError):
+            pass
+    
         return partido["ganador_forzado"]
     if not partido["jugado"]:
         return None
@@ -1711,6 +1719,20 @@ def render_match_card(disciplina, grupo, partido):
             f"{partido['marcador_local']} - "
             f"{partido['marcador_visitante']}"
         )
+    
+        if partido.get("ganador_forzado"):
+            try:
+                datos_penales = json.loads(partido["ganador_forzado"])
+    
+                if isinstance(datos_penales, dict):
+                    marcador = (
+                        f"{partido['marcador_local']} "
+                        f"({datos_penales['penales_local']}) - "
+                        f"{partido['marcador_visitante']} "
+                        f"({datos_penales['penales_visitante']})"
+                    )
+            except (json.JSONDecodeError, TypeError, KeyError):
+                pass
     else:
         marcador = "VS"
 
@@ -2230,22 +2252,40 @@ def vista_disciplinas():
 
                     render_match_card(disciplina, ronda, p)
 
-                    if st.session_state.admin_logueado and not p["jugado"]:
+                    if st.session_state.admin_logueado:
                         cols = st.columns([1, 1, 2])
 
                         gl = cols[0].number_input(
                             "Local",
                             min_value=0,
-                            value=0,
+                            value=p["marcador_local"] if p["marcador_local"] is not None else 0,
                             key=f"elim_gl_{disciplina}_{ronda}_{slot}",
                         )
 
                         gv = cols[1].number_input(
                             "Visitante",
                             min_value=0,
-                            value=0,
+                            value=p["marcador_visitante"] if p["marcador_visitante"] is not None else 0,
                             key=f"elim_gv_{disciplina}_{ronda}_{slot}",
                         )
+
+                        penales_local = None
+                        penales_visitante = None
+                        
+                        if disciplina in ("Fútbol Masculino", "Fútbol Femenino") and gl == gv:
+                            penales_local = cols[0].number_input(
+                                "Penales Local",
+                                min_value=0,
+                                value=0,
+                                key=f"elim_pen_local_{disciplina}_{ronda}_{slot}",
+                            )
+                        
+                            penales_visitante = cols[1].number_input(
+                                "Penales Visitante",
+                                min_value=0,
+                                value=0,
+                                key=f"elim_pen_visitante_{disciplina}_{ronda}_{slot}",
+                            )
 
                         ganador_manual = cols[2].selectbox(
                             "¿Definido por penales / caso especial?",
@@ -2270,12 +2310,28 @@ def vista_disciplinas():
                             )
 
                             if gano_forzado is None and gl == gv:
-                                st.error(
-                                    "No se permiten empates en eliminatorias. "
-                                    "Cargá el resultado final o indicá el "
-                                    "ganador manualmente (por ejemplo, por "
-                                    "penales)."
-                                )
+                                if (
+                                    disciplina in ("Fútbol Masculino", "Fútbol Femenino")
+                                    and penales_local is not None
+                                    and penales_visitante is not None
+                                    and penales_local != penales_visitante
+                                ):
+                                    ganador_penales = (
+                                        p["local"]
+                                        if penales_local > penales_visitante
+                                        else p["visitante"]
+                                    )
+                            
+                                    gano_forzado = json.dumps({
+                                        "ganador": ganador_penales,
+                                        "penales_local": int(penales_local),
+                                        "penales_visitante": int(penales_visitante),
+                                    })
+                                else:
+                                    st.error(
+                                        "No se permiten empates en eliminatorias. "
+                                        "Cargá el resultado final o indicá el ganador."
+                                    )
                             else:
                                 guardar_resultado_partido(
                                     disciplina, "eliminatoria", ronda, slot,
