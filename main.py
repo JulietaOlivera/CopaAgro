@@ -1435,6 +1435,21 @@ def calcular_tabla_global():
         _, _, campeon_tribu = construir_eliminatorias(disciplina)
         if campeon_tribu:
             puntos[campeon_tribu] += 5
+        eliminatorias, _, _ = construir_eliminatorias(disciplina)
+
+        for ronda, partidos_ronda in eliminatorias.items():
+            if ronda == "Final":
+                continue
+
+            for partido in partidos_ronda:
+                if partido["jugado"]:
+                    ganador = resolver_ganador(partido)
+
+                    if ganador:
+                        tribu_ganadora = nombre_a_tribu(disciplina, ganador)
+
+                        if tribu_ganadora:
+                            puntos[tribu_ganadora] += 3
 
     for evento in st.session_state.torneos_express:
         puntos[evento["tribu"]] += evento["puntos"]
