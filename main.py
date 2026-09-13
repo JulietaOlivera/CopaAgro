@@ -373,14 +373,14 @@ st.markdown(
         padding: 28px;
         margin-top: 20px;
         background:
-            linear-gradient(120deg, rgba(244,197,66,.14), rgba(244,197,66,.03)),
+            linear-gradient(120deg, color-mix(in srgb, var(--champ-color, #F4C542) 14%, transparent), color-mix(in srgb, var(--champ-color, #F4C542) 3%, transparent)),
             #151A1E;
-        border: 1px solid rgba(244,197,66,.35);
+        border: 1px solid color-mix(in srgb, var(--champ-color, #F4C542) 35%, transparent);
         text-align: center;
     }
 
     .champion-label {
-        color: #F4C542;
+        color: var(--champ-color, #F4C542);
         font-size: 11px;
         font-weight: 800;
         letter-spacing: 3px;
@@ -2378,9 +2378,10 @@ def vista_disciplinas():
                                 st.rerun()
 
             if campeon:
+                color_tribu = TRIBUS[campeon_tribu]["color"] if campeon_tribu else "#F4C542"
                 st.markdown(
                     f"""
-                    <div class="champion-banner">
+                    <div class="champion-banner" style="--champ-color:{color_tribu};">
                         <div class="champion-label">Campeón de {escape(disciplina)}</div>
                         <div class="champion-name">{escape(campeon)}</div>
                         <div style="color:#A8B0B6;">
