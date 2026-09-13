@@ -635,11 +635,12 @@ def crear_equipos_disciplina(disciplina):
                 "Bautista Cáceres Taffarel",
                 "Joaquín Rodríguez",
                 "Juan Emilio Weber Mutti",
-                "Juan Ignacio De Bravandere",
-                "Enedin Matías Echaniz",
-                "Tobías Fabri",
-                "Hahn Julián Mazzeto",
+                "Juan Ignacio Mutti",
+                "Enedin Matías de Bravandere",
+                "Fabri Hahn",
+                "Julián Mazzeto",
                 "Santino Briosso",
+                "Jeremías Veron",
             ],
         
             "Los Fabianes": [
