@@ -2533,8 +2533,22 @@ def vista_login_admin():
                 cliente_db.table("resultados_partidos").update({
                     "jugado": False,
                     "marcador_local": 0,
-                    "marcador_visitante": 0
-                }).eq("jugado", True).execute()
+                    "marcador_visitante": 0,
+                }).neq("disciplina", "__NINGUNA__").execute()
+
+                cliente_db.table("resultados_partidos").update({
+                    "marcador_local": None,
+                    "marcador_visitante": None,
+                    "jugado": False,
+                    "ganador_forzado": None,
+                }).eq("tipo", "eliminatoria").execute()
+
+                cliente_db.table("historial_puntos_extra").delete().neq(
+                    "tribu", "__NINGUNA__"
+                ).execute()
+
+                leer_resultados_partidos.clear()
+                leer_historial_puntos_extra.clear()
                 
                 st.success("¡Resultados limpios! Recargá la página para ver todo en cero.")
             except Exception as e:
