@@ -2449,40 +2449,6 @@ def vista_tabla_global():
             unsafe_allow_html=True,
         )
 
-    if st.session_state.admin_logueado:
-        st.markdown("---")
-        st.markdown(
-            '<div class="section-label">Administración</div>',
-            unsafe_allow_html=True,
-        )
-
-        with st.form("form_torneo_express"):
-            tribu_sel = st.selectbox(
-                "Tribu",
-                list(TRIBUS.keys()),
-            )
-            concepto = st.text_input(
-                "Concepto",
-                placeholder="Ejemplo: Torneo de Truco",
-            )
-            puntos = st.number_input(
-                "Puntos a sumar",
-                min_value=0,
-                value=1,
-                step=1,
-            )
-
-            enviado = st.form_submit_button("Agregar Torneo Express")
-
-            if enviado and concepto.strip():
-                st.session_state.torneos_express.append(
-                    {
-                        "tribu": tribu_sel,
-                        "concepto": concepto.strip(),
-                        "puntos": int(puntos),
-                    }
-                )
-                st.rerun()
 
 
 # ==============================================================================
