@@ -2492,11 +2492,6 @@ def vista_cronograma():
         unsafe_allow_html=True,
     )
 
-
-# ==============================================================================
-# VISTA REGLAMENTO
-# ==============================================================================
-
 # ==============================================================================
 # VISTA REGLAMENTO
 # ==============================================================================
@@ -2507,6 +2502,7 @@ def vista_reglamento():
         "Reglamento",
         "Reglas generales y reglamentos específicos de cada disciplina.",
     )
+    st.markdown("<style> a.header-anchor { display: none !important; } </style>", unsafe_allow_html=True)
 
     st.markdown(
         """
