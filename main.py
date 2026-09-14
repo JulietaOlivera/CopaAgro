@@ -2500,6 +2500,10 @@ def vista_cronograma():
 # VISTA REGLAMENTO
 # ==============================================================================
 
+# ==============================================================================
+# VISTA REGLAMENTO
+# ==============================================================================
+
 def vista_reglamento():
     render_page_header(
         "Información",
@@ -2509,559 +2513,559 @@ def vista_reglamento():
 
     st.markdown(
         """
-        <div class="rule-card">
-            <div class="rule-title">I. Reglas Generales del Evento</div>
+<div class="rule-card">
+    <div class="rule-title">I. Reglas Generales del Evento</div>
 
-            <p>
-                Estas disposiciones aplican a todos los equipos y participantes
-                del torneo, independientemente de la disciplina en la que compitan.
-                Las reglas específicas de cada deporte se detallan en las secciones
-                siguientes.
-            </p>
+    <p>
+        Estas disposiciones aplican a todos los equipos y participantes
+        del torneo, independientemente de la disciplina en la que compitan.
+        Las reglas específicas de cada deporte se detallan en las secciones
+        siguientes.
+    </p>
 
-            <h4>1. Inscripción y documentación</h4>
-            <ul>
-                <li>Los jugadores deben ser estudiantes universitarios.</li>
-                <li>
-                    Cada equipo debe presentar su lista de Buena Fe (jugadores)
-                    por los medios que indique la organización, antes del inicio
-                    de su participación. Una vez presentada, no podrá modificarse
-                    salvo extrema urgencia y con la posibilidad de hacer dos (2)
-                    cambios de jugadores de la lista hasta el día Miércoles 16/09.
-                </li>
-                <li>
-                    El responsable del equipo debe figurar obligatoriamente en
-                    la lista de Buena Fe y firmar la planilla correspondiente
-                    al inicio del evento.
-                </li>
-                <li>
-                    Cada jugador y responsable de equipo deberá presentar su DNI
-                    (físico o digital, app Mi Argentina) o carnet de conducir en
-                    Mesa de Entrada al momento de firmar la planilla y demostrar
-                    ser alumno regular (SIU Guaraní, virtual, etc.). Este es un
-                    requisito obligatorio para poder ingresar a la cancha/campo
-                    de juego. No se permiten fotos del DNI. De lo contrario,
-                    no podrá participar del encuentro.
-                </li>
-            </ul>
+    <h4>1. Inscripción y documentación</h4>
+    <ul>
+        <li>Los jugadores deben ser estudiantes universitarios.</li>
+        <li>
+            Cada equipo debe presentar su lista de Buena Fe (jugadores)
+            por los medios que indique la organización, antes del inicio
+            de su participación. Una vez presentada, no podrá modificarse
+            salvo extrema urgencia y con la posibilidad de hacer dos (2)
+            cambios de jugadores de la lista hasta el día Miércoles 16/09.
+        </li>
+        <li>
+            El responsable del equipo debe figurar obligatoriamente en
+            la lista de Buena Fe y firmar la planilla correspondiente
+            al inicio del evento.
+        </li>
+        <li>
+            Cada jugador y responsable de equipo deberá presentar su DNI
+            (físico o digital, app Mi Argentina) o carnet de conducir en
+            Mesa de Entrada al momento de firmar la planilla y demostrar
+            ser alumno regular (SIU Guaraní, virtual, etc.). Este es un
+            requisito obligatorio para poder ingresar a la cancha/campo
+            de juego. No se permiten fotos del DNI. De lo contrario,
+            no podrá participar del encuentro.
+        </li>
+    </ul>
 
-            <h4>2. Vestimenta e identificación</h4>
-            <ul>
-                <li>
-                    Ante la coincidencia de colores entre las equipaciones de
-                    ambos equipos, se procederá a un sorteo para determinar cuál
-                    de ellos deberá utilizar indumentaria alternativa.
-                </li>
-            </ul>
+    <h4>2. Vestimenta e identificación</h4>
+    <ul>
+        <li>
+            Ante la coincidencia de colores entre las equipaciones de
+            ambos equipos, se procederá a un sorteo para determinar cuál
+            de ellos deberá utilizar indumentaria alternativa.
+        </li>
+    </ul>
 
-            <h4>3. Horarios y puntualidad</h4>
-            <ul>
-                <li>
-                    Se otorgará una tolerancia de espera de 5 minutos, aplicable
-                    únicamente al primer partido de la jornada, salvo situaciones
-                    de fuerza mayor ajenas a la responsabilidad de los equipos
-                    y jugadores.
-                </li>
-                <li>
-                    La publicación de horarios de cada fecha se realizará por los
-                    canales oficiales que disponga la organización.
-                </li>
-            </ul>
+    <h4>3. Horarios y puntualidad</h4>
+    <ul>
+        <li>
+            Se otorgará una tolerancia de espera de 5 minutos, aplicable
+            únicamente al primer partido de la jornada, salvo situaciones
+            de fuerza mayor ajenas a la responsabilidad de los equipos
+            y jugadores.
+        </li>
+        <li>
+            La publicación de horarios de cada fecha se realizará por los
+            canales oficiales que disponga la organización.
+        </li>
+    </ul>
 
-            <h4>5. Conducta y disciplina</h4>
-            <ul>
-                <li>
-                    No se tolerarán, bajo ningún punto de vista, conductas
-                    violentas y/o antideportivas hacia compañeros, rivales,
-                    cuerpo arbitral, público presente o profesores.
-                </li>
-                <li>
-                    Las sanciones disciplinarias alcanzan a jugadores y
-                    responsables de equipo registrados en la lista de Buena Fe,
-                    y se aplicarán de acuerdo con la gravedad de la infracción
-                    cometida dentro o fuera del campo/cancha de juego, según
-                    corresponda.
-                </li>
-                <li>
-                    Las sanciones impuestas no necesariamente finalizan con el
-                    cierre del torneo: si la coordinación lo determina, las
-                    suspensiones o penas pendientes podrán trasladarse a futuras
-                    ediciones.
-                </li>
-            </ul>
+    <h4>5. Conducta y disciplina</h4>
+    <ul>
+        <li>
+            No se tolerarán, bajo ningún punto de vista, conductas
+            violentas y/o antideportivas hacia compañeros, rivales,
+            cuerpo arbitral, público presente o profesores.
+        </li>
+        <li>
+            Las sanciones disciplinarias alcanzan a jugadores y
+            responsables de equipo registrados en la lista de Buena Fe,
+            y se aplicarán de acuerdo con la gravedad de la infracción
+            cometida dentro o fuera del campo/cancha de juego, según
+            corresponda.
+        </li>
+        <li>
+            Las sanciones impuestas no necesariamente finalizan con el
+            cierre del torneo: si la coordinación lo determina, las
+            suspensiones o penas pendientes podrán trasladarse a futuras
+            ediciones.
+        </li>
+    </ul>
 
-            <h4>6. Atención médica</h4>
-            <ul>
-                <li>
-                    La atención de jugadores lesionados corre por cuenta de los
-                    seguros que cada equipo o participante contrate de manera
-                    individual. Aun así, habrá servicio de ambulancia disponible
-                    durante la realización del evento.
-                </li>
-            </ul>
+    <h4>6. Atención médica</h4>
+    <ul>
+        <li>
+            La atención de jugadores lesionados corre por cuenta de los
+            seguros que cada equipo o participante contrate de manera
+            individual. Aun así, habrá servicio de ambulancia disponible
+            durante la realización del evento.
+        </li>
+    </ul>
 
-            <h4>7. Retiro de equipos</h4>
-            <ul>
-                <li>
-                    Si un equipo se retira del torneo, se mantienen los resultados
-                    ya disputados. Los partidos restantes se computarán como
-                    perdidos para el equipo retirado, y los rivales que debían
-                    enfrentarlo quedarán eximidos de las obligaciones asociadas
-                    a ese encuentro, si las hubiera.
-                </li>
-                <li>
-                    La organización podrá aplicar sanciones para futuras ediciones
-                    a los equipos que abandonen la competencia.
-                </li>
-            </ul>
+    <h4>7. Retiro de equipos</h4>
+    <ul>
+        <li>
+            Si un equipo se retira del torneo, se mantienen los resultados
+            ya disputados. Los partidos restantes se computarán como
+            perdidos para el equipo retirado, y los rivales que debían
+            enfrentarlo quedarán eximidos de las obligaciones asociadas
+            a ese encuentro, si las hubiera.
+        </li>
+        <li>
+            La organización podrá aplicar sanciones para futuras ediciones
+            a los equipos que abandonen la competencia.
+        </li>
+    </ul>
 
-            <h4>8. Disposiciones finales</h4>
-            <ul>
-                <li>
-                    Los aspectos no contemplados en el presente reglamento serán
-                    resueltos por el equipo de organización del torneo.
-                </li>
-                <li>
-                    La inscripción de un equipo o participante implica la
-                    aceptación y el aval de todos los puntos expuestos en este
-                    reglamento.
-                </li>
-            </ul>
-        </div>
+    <h4>8. Disposiciones finales</h4>
+    <ul>
+        <li>
+            Los aspectos no contemplados en el presente reglamento serán
+            resueltos por el equipo de organización del torneo.
+        </li>
+        <li>
+            La inscripción de un equipo o participante implica la
+            aceptación y el aval de todos los puntos expuestos en este
+            reglamento.
+        </li>
+    </ul>
+</div>
         """,
         unsafe_allow_html=True,
     )
 
     st.markdown(
         """
-        <div class="rule-card" style="margin-top:22px;">
-            <div class="rule-title">II. Fútbol</div>
+<div class="rule-card" style="margin-top:22px;">
+    <div class="rule-title">II. Fútbol</div>
 
-            <p>
-                Reglamento específico de la disciplina de Fútbol.
-                Complementa —y no reemplaza— las Reglas Generales del Evento
-                (Sección I).
-            </p>
+    <p>
+        Reglamento específico de la disciplina de Fútbol.
+        Complementa —y no reemplaza— las Reglas Generales del Evento
+        (Sección I).
+    </p>
 
-            <h4>1. Conformación de equipos</h4>
-            <ul>
-                <li>
-                    Cada equipo de fútbol masculino podrá contar con un máximo
-                    de diez (10) jugadores en su lista de Buena Fe. Cada equipo
-                    de fútbol femenino podrá contar con un máximo de siete (7)
-                    jugadoras en su lista de Buena Fe.
-                </li>
-                <li>
-                    Un equipo de fútbol masculino que no se presente a jugar,
-                    o que cuente con menos de seis (6) jugadores al horario del
-                    partido, perderá el cotejo por un marcador de dos (2) a cero (0).
-                </li>
-                <li>
-                    Un equipo de fútbol femenino que no se presente a jugar,
-                    o que cuente con menos de cuatro (4) jugadoras al horario
-                    del partido, perderá el cotejo por un marcador de dos (2)
-                    a cero (0).
-                </li>
-            </ul>
+    <h4>1. Conformación de equipos</h4>
+    <ul>
+        <li>
+            Cada equipo de fútbol masculino podrá contar con un máximo
+            de diez (10) jugadores en su lista de Buena Fe. Cada equipo
+            de fútbol femenino podrá contar con un máximo de siete (7)
+            jugadoras en su lista de Buena Fe.
+        </li>
+        <li>
+            Un equipo de fútbol masculino que no se presente a jugar,
+            o que cuente con menos de seis (6) jugadores al horario del
+            partido, perderá el cotejo por un marcador de dos (2) a cero (0).
+        </li>
+        <li>
+            Un equipo de fútbol femenino que no se presente a jugar,
+            o que cuente con menos de cuatro (4) jugadoras al horario
+            del partido, perderá el cotejo por un marcador de dos (2)
+            a cero (0).
+        </li>
+    </ul>
 
-            <h4>2. Días y horarios de juego</h4>
-            <ul>
-                <li>
-                    Los partidos se disputan el día sábado, entre las 9:30 y
-                    las 18 hs. Cada equipo debe tener disponibilidad para jugar
-                    en cualquier horario dentro de esa franja.
-                </li>
-                <li>
-                    La distribución de los partidos se realiza por el comité
-                    de organización del evento.
-                </li>
-                <li>
-                    La publicación de horarios de cada partido se realizará con
-                    anticipación por la página web.
-                </li>
-            </ul>
+    <h4>2. Días y horarios de juego</h4>
+    <ul>
+        <li>
+            Los partidos se disputan el día sábado, entre las 9:30 y
+            las 18 hs. Cada equipo debe tener disponibilidad para jugar
+            en cualquier horario dentro de esa franja.
+        </li>
+        <li>
+            La distribución de los partidos se realiza por el comité
+            de organización del evento.
+        </li>
+        <li>
+            La publicación de horarios de cada partido se realizará con
+            anticipación por la página web.
+        </li>
+    </ul>
 
-            <h4>3. Duración y desarrollo del partido</h4>
-            <ul>
-                <li>
-                    Los partidos de fútbol 7 masculino constan de 2 tiempos de
-                    12 minutos + entretiempo de 2 minutos (cambio de lado) +
-                    3 minutos de cambio entre partidos = 30 minutos.
-                </li>
-                <li>
-                    Los partidos de fútbol 5 femenino constan de 2 tiempos de
-                    10 minutos + entretiempo de 2 minutos (cambio de lado) +
-                    3 minutos de cambio entre partidos = 25 minutos por partido.
-                </li>
-                <li>
-                    No hay límite en la cantidad de cambios, pero cada equipo
-                    dispone de solo dos (2) ventanas por partido para realizarlos
-                    (el entretiempo no cuenta como ventana). Se requiere
-                    autorización del árbitro para permitir el cambio de jugadores.
-                </li>
-                <li>
-                    Se permite un máximo de dos (2) reingresos por jugador.
-                </li>
-                <li>
-                    Cada encuentro es dirigido por un (1) juez principal.
-                </li>
-            </ul>
+    <h4>3. Duración y desarrollo del partido</h4>
+    <ul>
+        <li>
+            Los partidos de fútbol 7 masculino constan de 2 tiempos de
+            12 minutos + entretiempo de 2 minutos (cambio de lado) +
+            3 minutos de cambio entre partidos = 30 minutos.
+        </li>
+        <li>
+            Los partidos de fútbol 5 femenino constan de 2 tiempos de
+            10 minutos + entretiempo de 2 minutos (cambio de lado) +
+            3 minutos de cambio entre partidos = 25 minutos por partido.
+        </li>
+        <li>
+            No hay límite en la cantidad de cambios, pero cada equipo
+            dispone de solo dos (2) ventanas por partido para realizarlos
+            (el entretiempo no cuenta como ventana). Se requiere
+            autorización del árbitro para permitir el cambio de jugadores.
+        </li>
+        <li>
+            Se permite un máximo de dos (2) reingresos por jugador.
+        </li>
+        <li>
+            Cada encuentro es dirigido por un (1) juez principal.
+        </li>
+    </ul>
 
-            <h4>4. Sistema de competencia</h4>
-            <ul>
-                <li>
-                    <strong>Fase de grupos Masculino:</strong> 4 grupos de
-                    3 equipos, todos contra todos → 2 partidos garantizados
-                    por equipo. Clasificación: el 1° y el 2° de cada grupo
-                    pasan de fase. Se juega cuartos de final, semifinal y final.
-                    El 3° del grupo finaliza su participación tras la fase
-                    de grupos.
-                </li>
-                <li>
-                    <strong>Fase de grupos Femenino:</strong> 2 grupos de
-                    4 equipos, todos contra todos → 3 partidos garantizados
-                    por equipo. Clasificación: el 1° y el 2° de cada grupo
-                    pasan de fase. Se juega semifinal y final. El 3° y 4°
-                    de grupo finalizan su participación tras la fase de grupos.
-                </li>
-            </ul>
+    <h4>4. Sistema de competencia</h4>
+    <ul>
+        <li>
+            <strong>Fase de grupos Masculino:</strong> 4 grupos de
+            3 equipos, todos contra todos → 2 partidos garantizados
+            por equipo. Clasificación: el 1° y el 2° de cada grupo
+            pasan de fase. Se juega cuartos de final, semifinal y final.
+            El 3° del grupo finaliza su participación tras la fase
+            de grupos.
+        </li>
+        <li>
+            <strong>Fase de grupos Femenino:</strong> 2 grupos de
+            4 equipos, todos contra todos → 3 partidos garantizados
+            por equipo. Clasificación: el 1° y el 2° de cada grupo
+            pasan de fase. Se juega semifinal y final. El 3° y 4°
+            de grupo finalizan su participación tras la fase de grupos.
+        </li>
+    </ul>
 
-            <h4>5. Puntuación y desempates</h4>
-            <p>
-                Si dos o más equipos terminan con la misma cantidad de puntos
-                en la fase de grupos, se aplicará el siguiente orden de prioridad:
-            </p>
-            <ol>
-                <li>Diferencia de goles: goles a favor menos goles en contra.</li>
-                <li>Goles a favor: mayor cantidad de goles anotados.</li>
-                <li>Sorteo (moneda): en caso de persistir la igualdad.</li>
-            </ol>
+    <h4>5. Puntuación y desempates</h4>
+    <p>
+        Si dos o más equipos terminan con la misma cantidad de puntos
+        en la fase de grupos, se aplicará el siguiente orden de prioridad:
+    </p>
+    <ol>
+        <li>Diferencia de goles: goles a favor menos goles en contra.</li>
+        <li>Goles a favor: mayor cantidad de goles anotados.</li>
+        <li>Sorteo (moneda): en caso de persistir la igualdad.</li>
+    </ol>
 
-            <h4>6. Definición de partidos en fase eliminatoria</h4>
-            <p>
-                En las instancias de eliminación directa (cuartos, semifinales
-                y final) no hay prórroga. Si el partido termina empatado en el
-                tiempo reglamentario, se define mediante penales:
-            </p>
-            <ul>
-                <li>
-                    Cuartos de Final y Semifinales: tanda inicial de 3 penales
-                    por equipo. Si persiste el empate, se continúa con una serie
-                    de un penal por equipo hasta que haya un ganador.
-                </li>
-                <li>
-                    Final: tanda inicial de 5 penales por equipo. Si persiste
-                    el empate, se continúa con una serie de un penal por equipo
-                    hasta que haya un ganador.
-                </li>
-            </ul>
+    <h4>6. Definición de partidos en fase eliminatoria</h4>
+    <p>
+        En las instancias de eliminación directa (cuartos, semifinales
+        y final) no hay prórroga. Si el partido termina empatado en el
+        tiempo reglamentario, se define mediante penales:
+    </p>
+    <ul>
+        <li>
+            Cuartos de Final y Semifinales: tanda inicial de 3 penales
+            por equipo. Si persiste el empate, se continúa con una serie
+            de un penal por equipo hasta que haya un ganador.
+        </li>
+        <li>
+            Final: tanda inicial de 5 penales por equipo. Si persiste
+            el empate, se continúa con una serie de un penal por equipo
+            hasta que haya un ganador.
+        </li>
+    </ul>
 
-            <h4>7. Bajas de equipos durante el torneo</h4>
-            <ul>
-                <li>
-                    Si un equipo se da de baja, se mantienen los resultados
-                    previos. Los partidos restantes se computarán como perdidos
-                    por 0 a 2 para el equipo retirado.
-                </li>
-                <li>
-                    La organización podrá aplicar sanciones para futuros torneos
-                    a los equipos que abandonen la competencia.
-                </li>
-            </ul>
+    <h4>7. Bajas de equipos durante el torneo</h4>
+    <ul>
+        <li>
+            Si un equipo se da de baja, se mantienen los resultados
+            previos. Los partidos restantes se computarán como perdidos
+            por 0 a 2 para el equipo retirado.
+        </li>
+        <li>
+            La organización podrá aplicar sanciones para futuros torneos
+            a los equipos que abandonen la competencia.
+        </li>
+    </ul>
 
-            <h4>8. No presentación y regularización</h4>
-            <ul>
-                <li>
-                    Si un equipo no se presenta a su partido programado, se le
-                    da automáticamente por perdido el encuentro.
-                </li>
-                <li>
-                    Si no se regulariza la situación, el equipo no será incluido
-                    en el fixture, perdiendo automáticamente los puntos y
-                    poniendo en riesgo su continuidad en el certamen.
-                </li>
-            </ul>
+    <h4>8. No presentación y regularización</h4>
+    <ul>
+        <li>
+            Si un equipo no se presenta a su partido programado, se le
+            da automáticamente por perdido el encuentro.
+        </li>
+        <li>
+            Si no se regulariza la situación, el equipo no será incluido
+            en el fixture, perdiendo automáticamente los puntos y
+            poniendo en riesgo su continuidad en el certamen.
+        </li>
+    </ul>
 
-            <h4>10. Normativa aplicable</h4>
-            <p>
-                El torneo se rige por las reglas de juego internacionales de
-                la FIFA y de la AFA, a excepción de las pautas específicas
-                establecidas en este reglamento.
-            </p>
-        </div>
+    <h4>10. Normativa aplicable</h4>
+    <p>
+        El torneo se rige por las reglas de juego internacionales de
+        la FIFA y de la AFA, a excepción de las pautas específicas
+        establecidas en este reglamento.
+    </p>
+</div>
         """,
         unsafe_allow_html=True,
     )
 
     st.markdown(
         """
-        <div class="rule-card" style="margin-top:22px;">
-            <div class="rule-title">III. Vóley Mixto</div>
+<div class="rule-card" style="margin-top:22px;">
+    <div class="rule-title">III. Vóley Mixto</div>
 
-            <p>
-                Reglamento específico de la disciplina de Vóley Mixto.
-                Complementa —y no reemplaza— las Reglas Generales del Evento
-                (Sección I).
-            </p>
+    <p>
+        Reglamento específico de la disciplina de Vóley Mixto.
+        Complementa —y no reemplaza— las Reglas Generales del Evento
+        (Sección I).
+    </p>
 
-            <h4>1. Conformación de equipo</h4>
-            <ul>
-                <li>
-                    Cada equipo debe tener un mínimo de 6 jugadores, y podrá
-                    contar con un máximo de 2 suplentes.
-                </li>
-            </ul>
+    <h4>1. Conformación de equipo</h4>
+    <ul>
+        <li>
+            Cada equipo debe tener un mínimo de 6 jugadores, y podrá
+            contar con un máximo de 2 suplentes.
+        </li>
+    </ul>
 
-            <h4>2. Paridad de género en cancha</h4>
-            <ul>
-                <li>
-                    Cada equipo debe estar integrado por 6 jugadores en cancha,
-                    con un mínimo obligatorio de 3 mujeres.
-                </li>
-            </ul>
+    <h4>2. Paridad de género en cancha</h4>
+    <ul>
+        <li>
+            Cada equipo debe estar integrado por 6 jugadores en cancha,
+            con un mínimo obligatorio de 3 mujeres.
+        </li>
+    </ul>
 
-            <h4>3. Cancha y red</h4>
-            <ul>
-                <li>Altura de la red: 2,32 m.</li>
-            </ul>
+    <h4>3. Cancha y red</h4>
+    <ul>
+        <li>Altura de la red: 2,32 m.</li>
+    </ul>
 
-            <h4>4. Ataque y remate</h4>
-            <ul>
-                <li>
-                    Con la red ajustada a 2,32 mts, los varones deberán atacar
-                    de zagueros. Solo se permite que los varones puedan atacar
-                    por delante de la línea de 3mts (zona delantera) a pie firme,
-                    de igual manera que los toques.
-                </li>
-                <li>
-                    Sólo se permite el salto adelante de la línea de 3mts en
-                    los bloqueos, a dos manos.
-                </li>
-            </ul>
+    <h4>4. Ataque y remate</h4>
+    <ul>
+        <li>
+            Con la red ajustada a 2,32 mts, los varones deberán atacar
+            de zagueros. Solo se permite que los varones puedan atacar
+            por delante de la línea de 3mts (zona delantera) a pie firme,
+            de igual manera que los toques.
+        </li>
+        <li>
+            Sólo se permite el salto adelante de la línea de 3mts en
+            los bloqueos, a dos manos.
+        </li>
+    </ul>
 
-            <h4>5. Bloqueo</h4>
-            <ul>
-                <li>
-                    Se permite el bloqueo de ambas ramas (varones y mujeres).
-                </li>
-            </ul>
+    <h4>5. Bloqueo</h4>
+    <ul>
+        <li>
+            Se permite el bloqueo de ambas ramas (varones y mujeres).
+        </li>
+    </ul>
 
-            <h4>6. Sustituciones</h4>
-            <ul>
-                <li>
-                    Se permite cualquier cambio, sin importar el género, siempre
-                    y cuando se respete el mínimo de 3 mujeres en cancha.
-                </li>
-            </ul>
+    <h4>6. Sustituciones</h4>
+    <ul>
+        <li>
+            Se permite cualquier cambio, sin importar el género, siempre
+            y cuando se respete el mínimo de 3 mujeres en cancha.
+        </li>
+    </ul>
 
-            <h4>7. Uso del líbero</h4>
-            <ul>
-                <li>
-                    Si se utiliza líbero, este puede ser de cualquier género,
-                    pero al ingresar debe respetarse el equilibrio obligatorio
-                    en la cancha respecto del jugador que reemplaza (mínimo
-                    3 mujeres en cancha).
-                </li>
-            </ul>
+    <h4>7. Uso del líbero</h4>
+    <ul>
+        <li>
+            Si se utiliza líbero, este puede ser de cualquier género,
+            pero al ingresar debe respetarse el equilibrio obligatorio
+            en la cancha respecto del jugador que reemplaza (mínimo
+            3 mujeres en cancha).
+        </li>
+    </ul>
 
-            <h4>8. Sets y puntos</h4>
-            <ul>
-                <li>
-                    El partido se disputa al mejor de 3 sets de 15 puntos cada
-                    uno, sin diferencia de 2 puntos (se define en 15).
-                </li>
-                <li>
-                    Si ningún equipo llega a 15 puntos, el set se lo lleva
-                    quien lleve mayor cantidad de puntos a los 12 minutos
-                    de partido.
-                </li>
-            </ul>
-        </div>
+    <h4>8. Sets y puntos</h4>
+    <ul>
+        <li>
+            El partido se disputa al mejor de 3 sets de 15 puntos cada
+            uno, sin diferencia de 2 puntos (se define en 15).
+        </li>
+        <li>
+            Si ningún equipo llega a 15 puntos, el set se lo lleva
+            quien lleve mayor cantidad de puntos a los 12 minutos
+            de partido.
+        </li>
+    </ul>
+</div>
         """,
         unsafe_allow_html=True,
     )
 
     st.markdown(
         """
-        <div class="rule-card" style="margin-top:22px;">
-            <div class="rule-title">IV. Básquet 3x3</div>
+<div class="rule-card" style="margin-top:22px;">
+    <div class="rule-title">IV. Básquet 3x3</div>
 
-            <p>
-                Reglas básicas de Básquet 3x3, basadas en el formato oficial
-                FIBA 3x3, adaptadas como resumen práctico para jugadores,
-                árbitros y organización del torneo. Complementa —y no reemplaza—
-                las Reglas Generales del Evento (Sección I).
-            </p>
+    <p>
+        Reglas básicas de Básquet 3x3, basadas en el formato oficial
+        FIBA 3x3, adaptadas como resumen práctico para jugadores,
+        árbitros y organización del torneo. Complementa —y no reemplaza—
+        las Reglas Generales del Evento (Sección I).
+    </p>
 
-            <h4>1. Formato del juego</h4>
-            <ul>
-                <li>Cancha: media cancha, un solo aro.</li>
-                <li>
-                    Equipos: 3 jugadores en cancha + 1 o 2 suplentes.
-                    El partido debe comenzar con 3 jugadores por equipo.
-                </li>
-                <li>
-                    Balón: en competencias FIBA 3x3 se utiliza balón tamaño 6,
-                    con peso de balón tamaño 7.
-                </li>
-                <li>
-                    Duración: 1 período de 10 minutos. El reloj se detiene
-                    durante situaciones de balón muerto y tiros libres. Si un
-                    equipo llega a 21 puntos o más antes de terminar los 10
-                    minutos, gana inmediatamente.
-                </li>
-                <li>
-                    Empate: se juega una prórroga sin tiempo establecido.
-                    Gana el primer equipo que consiga 2 puntos en la prórroga.
-                </li>
-            </ul>
+    <h4>1. Formato del juego</h4>
+    <ul>
+        <li>Cancha: media cancha, un solo aro.</li>
+        <li>
+            Equipos: 3 jugadores en cancha + 1 o 2 suplentes.
+            El partido debe comenzar con 3 jugadores por equipo.
+        </li>
+        <li>
+            Balón: en competencias FIBA 3x3 se utiliza balón tamaño 6,
+            con peso de balón tamaño 7.
+        </li>
+        <li>
+            Duración: 1 período de 10 minutos. El reloj se detiene
+            durante situaciones de balón muerto y tiros libres. Si un
+            equipo llega a 21 puntos o más antes de terminar los 10
+            minutos, gana inmediatamente.
+        </li>
+        <li>
+            Empate: se juega una prórroga sin tiempo establecido.
+            Gana el primer equipo que consiga 2 puntos en la prórroga.
+        </li>
+    </ul>
 
-            <h4>2. Puntuación</h4>
-            <ul>
-                <li>Canasta dentro del arco: 1 punto.</li>
-                <li>Canasta detrás del arco: 2 puntos.</li>
-                <li>Tiro libre convertido: 1 punto.</li>
-            </ul>
+    <h4>2. Puntuación</h4>
+    <ul>
+        <li>Canasta dentro del arco: 1 punto.</li>
+        <li>Canasta detrás del arco: 2 puntos.</li>
+        <li>Tiro libre convertido: 1 punto.</li>
+    </ul>
 
-            <h4>3. Inicio y reanudación — check-ball</h4>
-            <ul>
-                <li>
-                    Inicio: una moneda determina qué equipo obtiene la primera
-                    posesión. El equipo que gana el sorteo puede elegir tener
-                    la primera posesión o reservarla para una eventual prórroga.
-                </li>
-                <li>
-                    Check-ball: después de una situación de balón muerto, el
-                    juego se reanuda mediante un intercambio del balón entre
-                    atacante y defensor detrás del arco, en la parte superior
-                    de la cancha.
-                </li>
-                <li>
-                    Después de una canasta: el equipo que recibió la canasta
-                    toma el balón directamente debajo del aro, dentro de la
-                    cancha, y debe llevarlo mediante pase o drible hasta detrás
-                    del arco. No se saca desde fuera de la línea de fondo.
-                </li>
-                <li>
-                    Después de un tiro libre convertido: se aplica el mismo
-                    principio de reanudación, salvo que la penalización otorgue
-                    además posesión al equipo que lanzó los tiros libres.
-                </li>
-            </ul>
+    <h4>3. Inicio y reanudación — check-ball</h4>
+    <ul>
+        <li>
+            Inicio: una moneda determina qué equipo obtiene la primera
+            posesión. El equipo que gana el sorteo puede elegir tener
+            la primera posesión o reservarla para una eventual prórroga.
+        </li>
+        <li>
+            Check-ball: después de una situación de balón muerto, el
+            juego se reanuda mediante un intercambio del balón entre
+            atacante y defensor detrás del arco, en la parte superior
+            de la cancha.
+        </li>
+        <li>
+            Después de una canasta: el equipo que recibió la canasta
+            toma el balón directamente debajo del aro, dentro de la
+            cancha, y debe llevarlo mediante pase o drible hasta detrás
+            del arco. No se saca desde fuera de la línea de fondo.
+        </li>
+        <li>
+            Después de un tiro libre convertido: se aplica el mismo
+            principio de reanudación, salvo que la penalización otorgue
+            además posesión al equipo que lanzó los tiros libres.
+        </li>
+    </ul>
 
-            <h4>4. Rebote, robo y cambio de posesión</h4>
-            <ul>
-                <li>
-                    Rebote defensivo o robo: el equipo que obtiene la posesión
-                    debe llevar el balón detrás del arco mediante pase o drible
-                    antes de intentar una canasta.
-                </li>
-                <li>
-                    Rebote ofensivo: si el mismo equipo que atacaba recupera
-                    un tiro fallado, puede continuar atacando sin sacar el
-                    balón detrás del arco.
-                </li>
-                <li>
-                    Una posesión no se considera “limpiada” hasta que el balón
-                    y el jugador estén detrás del arco según las reglas.
-                </li>
-            </ul>
+    <h4>4. Rebote, robo y cambio de posesión</h4>
+    <ul>
+        <li>
+            Rebote defensivo o robo: el equipo que obtiene la posesión
+            debe llevar el balón detrás del arco mediante pase o drible
+            antes de intentar una canasta.
+        </li>
+        <li>
+            Rebote ofensivo: si el mismo equipo que atacaba recupera
+            un tiro fallado, puede continuar atacando sin sacar el
+            balón detrás del arco.
+        </li>
+        <li>
+            Una posesión no se considera “limpiada” hasta que el balón
+            y el jugador estén detrás del arco según las reglas.
+        </li>
+    </ul>
 
-            <h4>5. Reloj de posesión</h4>
-            <ul>
-                <li>
-                    12 segundos: cada equipo debe intentar un lanzamiento de
-                    campo dentro de los 12 segundos de posesión. Si no hay reloj
-                    de posesión, el árbitro debe controlar la demora y
-                    advertir/contar los últimos 5 segundos cuando corresponda.
-                </li>
-            </ul>
+    <h4>5. Reloj de posesión</h4>
+    <ul>
+        <li>
+            12 segundos: cada equipo debe intentar un lanzamiento de
+            campo dentro de los 12 segundos de posesión. Si no hay reloj
+            de posesión, el árbitro debe controlar la demora y
+            advertir/contar los últimos 5 segundos cuando corresponda.
+        </li>
+    </ul>
 
-            <h4>6. Faltas y tiros libres</h4>
-            <ul>
-                <li>
-                    Falta durante un lanzamiento dentro del arco: 1 tiro libre.
-                </li>
-                <li>
-                    Falta durante un lanzamiento detrás del arco: 2 tiros libres.
-                </li>
-                <li>
-                    Si la canasta entra y hubo falta durante el lanzamiento:
-                    se concede 1 tiro libre adicional.
-                </li>
-                <li>
-                    Falta ofensiva: normalmente no otorga tiros libres; la
-                    posesión pasa al otro equipo.
-                </li>
-                <li>
-                    Faltas de equipo: desde la 7.ª, 8.ª y 9.ª falta del equipo
-                    se conceden 2 tiros libres. Desde la 10.ª y cada falta
-                    posterior, se conceden 2 tiros libres más posesión para
-                    el rival.
-                </li>
-                <li>
-                    Falta técnica: 1 tiro libre. Luego se reanuda con check-ball
-                    para el equipo que tenía o tenía derecho a la posesión
-                    cuando se sancionó la técnica.
-                </li>
-            </ul>
+    <h4>6. Faltas y tiros libres</h4>
+    <ul>
+        <li>
+            Falta durante un lanzamiento dentro del arco: 1 tiro libre.
+        </li>
+        <li>
+            Falta durante un lanzamiento detrás del arco: 2 tiros libres.
+        </li>
+        <li>
+            Si la canasta entra y hubo falta durante el lanzamiento:
+            se concede 1 tiro libre adicional.
+        </li>
+        <li>
+            Falta ofensiva: normalmente no otorga tiros libres; la
+            posesión pasa al otro equipo.
+        </li>
+        <li>
+            Faltas de equipo: desde la 7.ª, 8.ª y 9.ª falta del equipo
+            se conceden 2 tiros libres. Desde la 10.ª y cada falta
+            posterior, se conceden 2 tiros libres más posesión para
+            el rival.
+        </li>
+        <li>
+            Falta técnica: 1 tiro libre. Luego se reanuda con check-ball
+            para el equipo que tenía o tenía derecho a la posesión
+            cuando se sancionó la técnica.
+        </li>
+    </ul>
 
-            <h4>7. Sustituciones</h4>
-            <ul>
-                <li>
-                    Las sustituciones se realizan cuando el balón está muerto
-                    y antes del check-ball o de los tiros libres. El suplente
-                    entra desde detrás de la línea de fondo cuando se produce
-                    el contacto físico con el compañero que sale.
-                </li>
-            </ul>
+    <h4>7. Sustituciones</h4>
+    <ul>
+        <li>
+            Las sustituciones se realizan cuando el balón está muerto
+            y antes del check-ball o de los tiros libres. El suplente
+            entra desde detrás de la línea de fondo cuando se produce
+            el contacto físico con el compañero que sale.
+        </li>
+    </ul>
 
-            <h4>8. Tiempos muertos</h4>
-            <ul>
-                <li>
-                    Cada equipo dispone de 1 tiempo muerto de 30 segundos en
-                    el formato oficial FIBA 3x3. La organización definirá
-                    previamente si se mantendrá exactamente esta regla para
-                    el torneo.
-                </li>
-            </ul>
+    <h4>8. Tiempos muertos</h4>
+    <ul>
+        <li>
+            Cada equipo dispone de 1 tiempo muerto de 30 segundos en
+            el formato oficial FIBA 3x3. La organización definirá
+            previamente si se mantendrá exactamente esta regla para
+            el torneo.
+        </li>
+    </ul>
 
-            <h4>9. Reglas clave para explicar a los jugadores</h4>
-            <ol>
-                <li>
-                    Después de recibir una canasta: tomar la pelota debajo del
-                    aro → salir detrás del arco → atacar.
-                </li>
-                <li>
-                    Después de un rebote defensivo o robo: primero hay que
-                    llevar la pelota detrás del arco.
-                </li>
-                <li>Canasta dentro = 1 punto; detrás del arco = 2 puntos.</li>
-                <li>Hay 12 segundos para lanzar.</li>
-                <li>7.ª, 8.ª y 9.ª falta de equipo = 2 tiros libres.</li>
-                <li>10.ª falta o más = 2 tiros libres + posesión.</li>
-                <li>
-                    El partido dura 10 minutos, o termina antes al llegar
-                    a 21 puntos.
-                </li>
-                <li>
-                    Si hay empate: prórroga; gana el primero que haga 2 puntos.
-                </li>
-                <li>
-                    Las situaciones de balón muerto se reanudan con check-ball,
-                    salvo las excepciones previstas por las reglas.
-                </li>
-            </ol>
+    <h4>9. Reglas clave para explicar a los jugadores</h4>
+    <ol>
+        <li>
+            Después de recibir una canasta: tomar la pelota debajo del
+            aro → salir detrás del arco → atacar.
+        </li>
+        <li>
+            Después de un rebote defensivo o robo: primero hay que
+            llevar la pelota detrás del arco.
+        </li>
+        <li>Canasta dentro = 1 punto; detrás del arco = 2 puntos.</li>
+        <li>Hay 12 segundos para lanzar.</li>
+        <li>7.ª, 8.ª y 9.ª falta de equipo = 2 tiros libres.</li>
+        <li>10.ª falta o más = 2 tiros libres + posesión.</li>
+        <li>
+            El partido dura 10 minutos, o termina antes al llegar
+            a 21 puntos.
+        </li>
+        <li>
+            Si hay empate: prórroga; gana el primero que haga 2 puntos.
+        </li>
+        <li>
+            Las situaciones de balón muerto se reanudan con check-ball,
+            salvo las excepciones previstas por las reglas.
+        </li>
+    </ol>
 
-            <p style="margin-top:20px;color:#9DA6AE;">
-                <strong>Nota:</strong> esta sección es un resumen operativo
-                basado en las reglas oficiales de FIBA 3x3 y no reemplaza el
-                reglamento oficial completo. Para aspectos administrativos
-                propios del torneo (formato de grupos, cantidad de partidos,
-                inscripción, tolerancia por llegadas tarde, etc.) rigen las
-                Reglas Generales del Evento (Sección I).
-            </p>
-        </div>
+    <p style="margin-top:20px;color:#9DA6AE;">
+        <strong>Nota:</strong> esta sección es un resumen operativo
+        basado en las reglas oficiales de FIBA 3x3 y no reemplaza el
+        reglamento oficial completo. Para aspectos administrativos
+        propios del torneo (formato de grupos, cantidad de partidos,
+        inscripción, tolerancia por llegadas tarde, etc.) rigen las
+        Reglas Generales del Evento (Sección I).
+    </p>
+</div>
         """,
         unsafe_allow_html=True,
     )
