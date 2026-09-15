@@ -494,6 +494,12 @@ st.markdown(
             grid-template-columns: 85px 1fr;
         }
     }
+
+    [data-testid="stHeaderActionElements"],
+    .stMarkdown h1 > a, .stMarkdown h2 > a, .stMarkdown h3 > a,
+    .stMarkdown h4 > a, .stMarkdown h5 > a, .stMarkdown h6 > a {
+        display: none !important;
+    }
     </style>
     """,
     unsafe_allow_html=True,
