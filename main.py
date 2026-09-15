@@ -1326,7 +1326,7 @@ def inicializar_estado():
     # REEMPLAZAR CON ANUNCIOS REALES
     st.session_state.tablon = [
         "Bienvenidos a La Copa Agro 2026.",
-        "Próximamente se publicará el cronograma definitivo.",
+        
     ]
 
     # REEMPLAZAR CON TORNEOS EXPRESS REALES
