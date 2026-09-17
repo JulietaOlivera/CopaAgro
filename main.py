@@ -787,7 +787,6 @@ def crear_equipos_disciplina(disciplina):
                 "Micaela Bargas",
                 "Virginia Sanchez",
                 "Florencia Godoy",
-                
             ],
 
             "Skabyos Negro": [
@@ -824,7 +823,7 @@ def crear_equipos_disciplina(disciplina):
                 "Andrea Mohr",
                 "Catalina Lopez",
                 "Belén Stibel",
-                "Julieta Naef",
+                "Dalma Muller",
                 "Angelina Galian",
                 "Catalina Gastiazoro",
                 "Magali Kristafor",
@@ -860,7 +859,7 @@ def crear_equipos_disciplina(disciplina):
     if disciplina == "Básquet":
 
         equipos_reales_basquet = [
-            ("Jarritos", "Trigo"),
+            ("Sin Nombre", "Trigo"),
             ("Rancho FC", "Maíz"),
             ("Lo Viejo Funciona", "Holando"),
             ("Pizza Libre", "Angus"),
@@ -874,11 +873,11 @@ def crear_equipos_disciplina(disciplina):
                 "Joaquin Sancio",
             ],
 
-            "Jarritos": [
-                "Tadeo Ballina",
-                "Benicio Nillius",
-                "Joaquín Fernández",
-                "Santino Pacifico",
+            "Sin Nombre": [
+                "Tobias Echaniz",
+                "Santiago Beltrame",
+                "Santino Treppo",
+                "Ignacio Anselmino",
             ],
 
             "Rancho FC": [
@@ -886,6 +885,7 @@ def crear_equipos_disciplina(disciplina):
                 "Jerónimo Rochi",
                 "Jerónimo Sivilla",
                 "Santino Stamatti",
+                "Adolfo Rau",
             ],
 
             "Lo Viejo Funciona": [
@@ -929,6 +929,7 @@ def crear_equipos_disciplina(disciplina):
                 "Camila Godoy",
                 "Julieta Diaz",
                 "Candela Diaz",
+                "Asael Remedi",
             ],
 
             "Casi Jugamos": [
@@ -939,6 +940,7 @@ def crear_equipos_disciplina(disciplina):
                 "Virginia Aguirre",
                 "Ignacio Perez",
                 "Andrei Zalisñak",
+                "Florencia Lederhos Jauberts",
             ],
 
             "Truco": [
@@ -948,7 +950,7 @@ def crear_equipos_disciplina(disciplina):
                 "Nazarena Romero",
                 "Xiomara Sánchez",
                 "Matías Sivila",
-                "Bruno Schneider",
+                "Javier de la Casa",
                 "Facundo Schneider",
             ],
 
