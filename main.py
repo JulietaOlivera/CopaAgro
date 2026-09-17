@@ -586,7 +586,7 @@ def crear_equipos_disciplina(disciplina):
             "La Choloneta": [
                 "Lucas Picculo",
                 "Lucas Lell",
-                "Ezequiel Bianchini",
+                "Lucas González",
                 "Juan Martín Zaragoza",
                 "Thomas Garcilazo",
                 "Baltazar Michell",
@@ -657,8 +657,8 @@ def crear_equipos_disciplina(disciplina):
                 "Simón Bollo",
                 "Mauro Arlettaz",
                 "Damián Domingorena",
-                "Lautaro Silva",
-                "Agustín Navarret",
+                "Agustin Zapata",
+                "Tiago Skiba",
                 "Flavio Busco",
             ],
         
@@ -668,7 +668,7 @@ def crear_equipos_disciplina(disciplina):
                 "Mateo Mendoza",
                 "Juan Cruz Lozze",
                 "Mateo Franco",
-                "Franco Voucher",
+                "Lautaro Bordi",
                 "Marcos Villarino",
                 "Francisco Parisi",
                 "Martín Bustos",
@@ -678,38 +678,39 @@ def crear_equipos_disciplina(disciplina):
             "Deportivo Litoral": [
                 "Germán Wiesner",
                 "Franco Choves",
-                "Alexis Rodrigo Liturbe",
-                "Máximo Liturbe",
-                "Alejo Bermudes",
+                "Alexis Liturne",
+                "Rodrigo Liturne",
+                "Maximo Bermudez",
                 "Uriel Almara",
                 "Iván Peña",
-                "Jere Varisco",
+                "Jeremias Varisco",
                 "Namir Pavé",
                 "Agustín Holzman",
             ],
         
             "Atlético Barbecho": [
-                "Lautaro Álvarez",
+                "Alan Ledesma",
                 "Marcos Cardozo",
                 "Federico Dittler",
                 "Santiago Graf",
                 "Emiliano Lovver",
                 "Franco Meier",
-                "Iván Palavecino",
+                "Leopoldo Santoni",
                 "Johann Schinke",
                 "Enzo Tournour",
+                "Santiago Rau",
             ],
         
             "La Chancha Wacha": [
                 "Martín Gaona",
-                "Hugo Rosales",
+                "Nahuel Müller",
                 "Sabá Flores",
-                "Enzo Gigena",
+                "Emanuel Bonnin",
                 "Benicio Fontana",
                 "Deian Landra",
-                "Francisco Humaran",
+                "Jonathan Abels",
                 "Lisandro Pagnone",
-                "Pedro Pérez",
+                "Mauro Bustamante",
                 "Lisandro Silvestre",
             ],
         
@@ -721,8 +722,9 @@ def crear_equipos_disciplina(disciplina):
                 "Carlos Alvarez",
                 "Víctor Chaliol",
                 "Lautaro Rodríguez",
-                "Nicolás Vallejos",
-                "Esteban Ávila",
+                "Lukas Arévalo",
+                "Cristian Almiron",
+                "Mirko Zamaniego",
             ],
         }
 
@@ -785,7 +787,7 @@ def crear_equipos_disciplina(disciplina):
                 "Micaela Bargas",
                 "Virginia Sanchez",
                 "Florencia Godoy",
-                "Wanda Mendoza",
+                
             ],
 
             "Skabyos Negro": [
@@ -795,6 +797,7 @@ def crear_equipos_disciplina(disciplina):
                 "Florencia Santomil",
                 "Rebeca Hipólito",
                 "Keila Segovia",
+                "Wanda Mendoza",
             ],
 
             "Las 7 Plagas": [
@@ -813,7 +816,7 @@ def crear_equipos_disciplina(disciplina):
                 "Juana Cuberli",
                 "Agustina Montañana",
                 "Juana Nasi",
-                "Josefina Giorgi",
+                "Manuela Calvo",
                 "Melina Tarabini",
             ],
 
