@@ -2573,7 +2573,7 @@ def vista_reglamento():
 <h4>2. Días y horarios de juego</h4>
 <ul>
 <li>Los partidos se disputan el día sábado, entre las 9:30 y las 18 hs. Cada equipo debe tener disponibilidad para jugar en cualquier horario dentro de esa franja.</li>
-<li>La distribución de los partidos se realiza por el comité de organización del evento.</li>
+<li>La distribution de los partidos se realiza por el comité de organización del evento.</li>
 <li>La publicación de horarios de cada partido se realizará con anticipación por la página web.</li>
 </ul>
 <h4>3. Duración y desarrollo del partido</h4>
@@ -2583,6 +2583,12 @@ def vista_reglamento():
 <li>No hay límite en la cantidad de cambios, pero cada equipo dispone de solo dos (2) ventanas por partido para realizarlos (el entretiempo no cuenta como ventana). Se requiere autorización del árbitro para permitir el cambio de jugadores.</li>
 <li>Se permite un máximo de dos (2) reingresos por jugador.</li>
 <li>Cada encuentro es dirigido por un (1) juez principal.</li>
+<li>Los goles de atrás de mitad de cancha son contados como válidos, también son válidos los goles de área a área.</li>
+<li>Ante una clara intención de pase con el pie al arquero, el mismo NO puede agarrar la pelota con la mano. El arquero puede agarrar la pelota con la mano si el pase se efectúa con la cabeza.</li>
+<li>En fútbol masculino, los laterales se deben realizar con la mano. Se permite que los saques de arco superen la mitad de la cancha, siempre respetando la condición de que no ingresen directamente al área rival por el suelo. Si esa condición se incumple, se reinicia el juego desde mitad de cancha para el equipo defensor.</li>
+<li>Los laterales se deben realizar con el pie. No son válidos los goles directos desde laterales.</li>
+<li>Los saques de arco con la mano no deben pasar mitad de cancha.</li>
+<li>Los penales pueden ser ejecutados con distancia.</li>
 </ul>
 <h4>4. Sistema de competencia</h4>
 <ul>
@@ -2658,6 +2664,8 @@ def vista_reglamento():
 <li>El partido se disputa al mejor de 3 sets de 15 puntos cada uno, sin diferencia de 2 puntos (se define en 15).</li>
 <li>Si ningún equipo llega a 15 puntos, el set se lo lleva quien lleve mayor cantidad de puntos a los 12 minutos de partido.</li>
 </ul>
+<h4>9. Sistema de competencia</h4>
+<p>Los equipos se enfrentan en un todos contra todos por puntos. Los 2 equipos que más puntos logren, ganan el pase a la final.</p>
 </div>
         """,
         unsafe_allow_html=True,
@@ -2728,12 +2736,13 @@ def vista_reglamento():
 <li>Si hay empate: prórroga; gana el primero que haga 2 puntos.</li>
 <li>Las situaciones de balón muerto se reanudan con check-ball, salvo las excepciones previstas por las reglas.</li>
 </ol>
+<h4>10. Sistema de competencia</h4>
+<p>Los equipos se enfrentan en un todos contra todos por puntos. Los 2 equipos que más puntos logren, ganan el pase a la final.</p>
 <p style="margin-top:20px;color:#9DA6AE;"><strong>Nota:</strong> esta sección es un resumen operativo basado en las reglas oficiales de FIBA 3x3 y no reemplaza el reglamento oficial completo. Para aspectos administrativos propios del torneo (formato de grupos, cantidad de partidos, inscripción, tolerancia por llegadas tarde, etc.) rigen las Reglas Generales del Evento (Sección I).</p>
 </div>
         """,
         unsafe_allow_html=True,
     )
-
 
 # ==============================================================================
 # LOGIN ADMIN
