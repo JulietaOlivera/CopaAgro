@@ -703,7 +703,7 @@ def crear_equipos_disciplina(disciplina):
         
             "La Chancha Wacha": [
                 "Martín Gaona",
-                "Nahuel Müller",
+                "Hugo Rosales",
                 "Sabá Flores",
                 "Emanuel Bonnin",
                 "Benicio Fontana",
