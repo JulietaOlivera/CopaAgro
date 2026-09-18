@@ -671,7 +671,7 @@ def crear_equipos_disciplina(disciplina):
                 "Lautaro Bordi",
                 "Marcos Villarino",
                 "Francisco Parisi",
-                "Martín Bustos",
+                "Felipe Poloni",
                 "Francisco Roskopf",
             ],
         
